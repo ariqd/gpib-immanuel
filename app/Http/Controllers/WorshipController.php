@@ -13,7 +13,7 @@ class WorshipController extends Controller
      */
     public function index()
     {
-        //
+        return view('worship.index');
     }
 
     /**

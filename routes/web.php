@@ -17,6 +17,9 @@ Route::get('/', function () {
     return view('index');
 });
 
+Route::resource('worships', App\Http\Controllers\WorshipController::class);
+Route::resource('news', App\Http\Controllers\NewsController::class);
+
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
