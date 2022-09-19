@@ -1,6 +1,6 @@
 <nav class="navbar navbar-dark navbar-expand-lg" style="background: #34647A">
     <div class="container">
-        <a class="navbar-brand" href="#">GPIB Immanuel Pekanbaru</a>
+        <a class="navbar-brand" href="{{ url('/') }}">GPIB Immanuel Pekanbaru</a>
         <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
             aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
