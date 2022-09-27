@@ -34,7 +34,7 @@ class WorshipController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        dd($request->all());
     }
 
     /**
@@ -45,7 +45,7 @@ class WorshipController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('worship.show');
     }
 
     /**

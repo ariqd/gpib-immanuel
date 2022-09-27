@@ -16,7 +16,7 @@
                         <h5 class="card-title">Ibadah Hari Minggu</h5>
                         <p class="card-text">Tanggal: 19 Juni 2022 <br> Waktu: 19.00 WIB</p>
                         <div class="d-grid">
-                            <a href="#" class="btn btn-success btn-block stretched-link">Daftar</a>
+                            <a href="{{ route('worships.show', 1) }}" class="btn btn-success btn-block stretched-link">Daftar</a>
                         </div>
                     </div>
                 </div>

@@ -12,11 +12,11 @@
                         href="{{ url('/') }}">Home</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('worships') ? 'active' : '' }}"
+                    <a class="nav-link {{ request()->is('worships*') ? 'active' : '' }}"
                         href="{{ route('worships.index') }}">Pendaftaran Ibadah</a>
                 </li>
                 <li class="nav-item">
-                    <a class="nav-link {{ request()->is('news') ? 'active' : '' }}"
+                    <a class="nav-link {{ request()->is('news*') ? 'active' : '' }}"
                         href="{{ route('news.index') }}">Tata Ibadah & Warta</a>
                 </li>
             </ul>
