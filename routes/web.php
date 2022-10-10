@@ -25,3 +25,9 @@ Route::get('/dashboard', function () {
 })->middleware(['auth'])->name('dashboard');
 
 require __DIR__.'/auth.php';
+
+Route::group(['middleware' => ['auth', 'role:Admin'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
+    Route::resource('worships', App\Http\Controllers\Admin\WorshipController::class);
+    Route::resource('news', App\Http\Controllers\Admin\NewsController::class);
+    Route::resource('users', App\Http\Controllers\Admin\UserController::class);
+});
