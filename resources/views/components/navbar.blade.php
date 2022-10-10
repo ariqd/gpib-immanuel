@@ -25,8 +25,19 @@
                     @auth
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="#">
-                                <i class="bi-person"></i> Hello, Admin
+                                <i class="bi-person"></i> Hello, {{ auth()->user()->name }}
                             </a>
+                        </li>
+                        <li class="nav-item">
+                            <form method="POST" action="{{ route('logout') }}">
+                                @csrf
+
+                                <a class="nav-link" aria-current="page" href="{{ route('logout') }}"
+                                    onclick="event.preventDefault();
+                                                this.closest('form').submit();">
+                                    {{ __('Log Out') }}
+                                </a>
+                            </form>
                         </li>
                     @else
                         <li class="nav-item">

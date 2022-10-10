@@ -26,7 +26,7 @@
                 <h4>Map GPIB Immanuel Pekanbaru</h4>
                 <div class="row mt-3">
                     <div class="col-12 d-flex">
-
+                        <div id="map"></div>
                     </div>
                 </div>
             </div>
