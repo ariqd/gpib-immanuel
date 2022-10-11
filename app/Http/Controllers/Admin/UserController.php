@@ -40,8 +40,6 @@ class UserController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
         $request->validate([
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
@@ -52,7 +50,9 @@ class UserController extends Controller
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => $request->role
+            'role_id' => $request->role,
+            'is_created_by_admin' => TRUE,
+            'is_approved' => TRUE,
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambah.');;
@@ -77,7 +77,9 @@ class UserController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.user.form', [
+            'user' => User::find($id)
+        ]);
     }
 
     /**
@@ -89,7 +91,19 @@ class UserController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $user = User::find($id);
+
+        if ($user->is_created_by_admin) {
+            $user->name = $request->name;
+            $user->email = $request->email;
+            $user->role_id = $request->role;
+        } else {
+            $user->is_approved = $request->status ?? TRUE;
+        }
+
+        $user->save();
+
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil diubah.');;
     }
 
     /**

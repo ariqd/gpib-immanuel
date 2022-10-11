@@ -29,6 +29,9 @@
                                         Email
                                     </th>
                                     <th scope="col" class="py-4 px-6">
+                                        Status
+                                    </th>
+                                    <th scope="col" class="py-4 px-6">
 
                                     </th>
                                 </tr>
@@ -46,11 +49,22 @@
                                         <td class="py-4 px-6">
                                             {{ $user->email }}
                                         </td>
+                                        <td class="py-4 px-6">
+                                            @if ($user->is_approved)
+                                                <span class="text-green-500">
+                                                    Approved
+                                                </span>
+                                            @else
+                                                <span class="text-red-500">
+                                                    Not Approved
+                                                </span>
+                                            @endif
+                                        </td>
                                         <th scope="row" class="py-4 px-6">
-                                            <button type="button"
+                                            <a type="button" href="{{ route('admin.users.edit', $user->id) }}"
                                                 class="text-white bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none">
                                                 Edit
-                                            </button>
+                                            </a>
                                         </th>
                                     </tr>
                                 @endforeach
