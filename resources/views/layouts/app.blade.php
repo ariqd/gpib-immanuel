@@ -38,6 +38,18 @@
             </div>
         @endif
 
+        @if ($errors->any())
+            <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
+                <div class="bg-red-200 overflow-hidden shadow-sm sm:rounded-lg p-4 mb-6">
+                    <ul>
+                        @foreach ($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            </div>
+        @endif
+
         <!-- Page Content -->
         <main>
             {{ $slot }}

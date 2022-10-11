@@ -22,6 +22,18 @@
 <body>
     @include('components.navbar')
 
+    @if (session('success'))
+        <div class="alert alert-success">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        {{ session('success') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
     <body class="d-flex flex-column min-vh-100">
         @yield('content')
     </body>
