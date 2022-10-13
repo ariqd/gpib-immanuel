@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Worship;
 use Illuminate\Http\Request;
 
 class WorshipController extends Controller
@@ -14,7 +15,9 @@ class WorshipController extends Controller
      */
     public function index()
     {
-        return view('admin.worship.index');
+        return view('admin.worship.index', [
+            'worships' => Worship::all()
+        ]);
     }
 
     /**
@@ -24,7 +27,7 @@ class WorshipController extends Controller
      */
     public function create()
     {
-        //
+        return view('admin.worship.form');
     }
 
     /**
@@ -35,7 +38,19 @@ class WorshipController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        $request->validate([
+            'worship_name' => ['required', 'string', 'max:255'],
+            'worship_date' => ['required', 'date'],
+            'worship_time' => ['required'],
+        ]);
+
+        Worship::create([
+            'worship_name' => $request->worship_name,
+            'worship_date' => $request->worship_date,
+            'worship_time' => $request->worship_time,
+        ]);
+
+        return redirect()->route('admin.worships.index')->with('success', 'Ibadah berhasil ditambah.');;
     }
 
     /**
@@ -57,7 +72,9 @@ class WorshipController extends Controller
      */
     public function edit($id)
     {
-        //
+        return view('admin.worship.form', [
+            'worship' => Worship::find($id)
+        ]);
     }
 
     /**
@@ -69,7 +86,15 @@ class WorshipController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $worship = Worship::find($id);
+
+        $worship->worship_name = $request->worship_name;
+        $worship->worship_date = $request->worship_date;
+        $worship->worship_time = $request->worship_time;
+
+        $worship->save();
+
+        return redirect()->route('admin.worships.index')->with('success', 'Ibadah berhasil diubah.');
     }
 
     /**
