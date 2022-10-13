@@ -103,7 +103,7 @@ class UserController extends Controller
 
         $user->save();
 
-        return redirect()->route('admin.users.index')->with('success', 'User berhasil diubah.');;
+        return redirect()->route('admin.users.index')->with('success', 'User berhasil diubah.');
     }
 
     /**
