@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Booking;
 use Illuminate\Http\Request;
+use App\Models\Worship;
+use Illuminate\Support\Facades\Auth;
 
 class WorshipController extends Controller
 {
@@ -13,7 +16,9 @@ class WorshipController extends Controller
      */
     public function index()
     {
-        return view('worship.index');
+        return view('worship.index', [
+            'worships' => Worship::all()
+        ]);
     }
 
     /**
@@ -34,7 +39,19 @@ class WorshipController extends Controller
      */
     public function store(Request $request)
     {
-        dd($request->all());
+        // dd($request->all());
+
+        $input = $request->all();
+
+        foreach ($input['input'] as $seat) {
+            Booking::create([
+               'worship_id' => $input['worship_id'],
+               'booking_seat' => $seat,
+               'user_id' => Auth::id(),
+            ]);
+        }
+
+        return redirect()->route('worships.show', $input['worship_id'])->with('success', 'Kursi berhasil dibooking.');;
     }
 
     /**
@@ -45,7 +62,12 @@ class WorshipController extends Controller
      */
     public function show($id)
     {
-        return view('worship.show');
+        $booked_seats = Booking::where('worship_id', $id)->pluck('booking_seat')->toArray();
+        // dd($booked_seats);
+        return view('worship.show', [
+            'worship_id' => $id,
+            'booked_seats' => $booked_seats
+        ]);
     }
 
     /**
