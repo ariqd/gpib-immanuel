@@ -17,8 +17,12 @@ Route::get('/', function () {
     return view('index');
 });
 
-Route::resource('worships', App\Http\Controllers\WorshipController::class);
+Route::resource('worships', App\Http\Controllers\WorshipController::class)->except('store');
 Route::resource('news', App\Http\Controllers\NewsController::class);
+
+Route::group(['middleware' => ['auth', 'role:Jemaat,Simpatisan']], function () {
+    Route::resource('worships', App\Http\Controllers\WorshipController::class)->only('store');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
