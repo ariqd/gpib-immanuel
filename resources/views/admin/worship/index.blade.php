@@ -29,7 +29,7 @@
                                         Waktu
                                     </th>
                                     <th scope="col" class="py-4 px-6">
-                                        Partisipan
+                                        Kursi Terisi
                                     </th>
                                     <th scope="col" class="py-4 px-6">
 
@@ -50,7 +50,7 @@
                                             {{ $worship->worship_time }}
                                         </td>
                                         <td class="py-4 px-6">
-                                            0/50
+                                            {{ $worship->bookings->count() }}/50
                                         </td>
                                         <th scope="row" class="py-4 px-6">
                                             <a type="button" href="{{ route('admin.worships.edit', $worship->id) }}"

@@ -14,4 +14,9 @@ class Worship extends Model
         'worship_date',
         'worship_time',
     ];
+
+    public function bookings()
+    {
+        return $this->hasMany(Booking::class);
+    }
 }

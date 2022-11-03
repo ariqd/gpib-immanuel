@@ -16,6 +16,14 @@
             width: 100%;
             /* The width is the width of the web page */
         }
+        .btn.btn-primary {
+            background-color: #34647A;
+            border-color: #34647A;
+        }
+        .list-group-item.active {
+            background-color: #34647A;
+            border-color: #34647A;
+        }
     </style>
 </head>
 
@@ -28,6 +36,22 @@
                 <div class="row">
                     <div class="col-12">
                         {{ session('success') }}
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <div class="container">
+                <div class="row">
+                    <div class="col-12">
+                        <ul>
+                            @foreach ($errors->all() as $error)
+                                <li>{{ $error }}</li>
+                            @endforeach
+                        </ul>
                     </div>
                 </div>
             </div>
