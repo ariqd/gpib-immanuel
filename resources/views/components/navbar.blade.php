@@ -24,8 +24,8 @@
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     @auth
                         <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="#">
-                                <i class="bi-person"></i> Hello, {{ auth()->user()->name }}
+                            <a class="nav-link" aria-current="page" href="{{ route('profile.bookings.index') }}">
+                                <i class="bi-person"></i> {{ auth()->user()->name }} ({{ auth()->user()->role->role_name }})
                             </a>
                         </li>
                         <li class="nav-item">

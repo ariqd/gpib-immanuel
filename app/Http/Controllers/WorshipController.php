@@ -6,6 +6,7 @@ use App\Models\Booking;
 use Illuminate\Http\Request;
 use App\Models\Worship;
 use Illuminate\Support\Facades\Auth;
+use Str;
 
 class WorshipController extends Controller
 {
@@ -17,7 +18,7 @@ class WorshipController extends Controller
     public function index()
     {
         return view('worship.index', [
-            'worships' => Worship::all()
+            'worships' => Worship::orderBy('id', 'DESC')->get()
         ]);
     }
 
@@ -42,16 +43,40 @@ class WorshipController extends Controller
         // dd($request->all());
 
         $input = $request->all();
+        $booking_id = Str::random(10);
+        $errors = [];
+        $worship_id = $input['worship_id'];
+
+        foreach ($input['input'] as $seat) {
+            $booking_exists = Booking::where([
+                ['worship_id', '=', $worship_id],
+                ['booking_seat', '=', $seat],
+                ['fixed', '=', true]
+            ])->get();
+
+            if (!$booking_exists->isEmpty()) {
+                $errors[$seat] = 'Kursi ' . $seat . ' telah dibooking oleh jemaat lain. Silahkan pilih kursi kembali';
+            }
+        }
+
+        if (!empty($errors)) {
+            return redirect()
+                ->back()
+                ->withErrors($errors)
+                ->withInput();
+        }
 
         foreach ($input['input'] as $seat) {
             Booking::create([
-               'worship_id' => $input['worship_id'],
-               'booking_seat' => $seat,
-               'user_id' => Auth::id(),
+                'booking_id' => $booking_id,
+                'worship_id' => $input['worship_id'],
+                'booking_seat' => $seat,
+                'user_id' => Auth::id(),
             ]);
         }
 
-        return redirect()->route('worships.show', $input['worship_id'])->with('success', 'Kursi berhasil dibooking.');;
+        // return redirect()->route('worships.show', $input['worship_id'])->with('success', 'Kursi berhasil dibooking.');;
+        return redirect()->route('profile.bookings.create', ['booking_id' => $booking_id, 'worship_id' => $worship_id])->with('success', 'Silahkan isi nama pemilik kursi untuk menyelesaikan pemesanan.');;
     }
 
     /**
@@ -62,7 +87,10 @@ class WorshipController extends Controller
      */
     public function show($id)
     {
-        $booked_seats = Booking::where('worship_id', $id)->pluck('booking_seat')->toArray();
+        $booked_seats = Booking::where([
+            ['worship_id', '=', $id],
+            ['fixed', '=', TRUE],
+        ])->pluck('booking_seat')->toArray();
         // dd($booked_seats);
         return view('worship.show', [
             'worship_id' => $id,

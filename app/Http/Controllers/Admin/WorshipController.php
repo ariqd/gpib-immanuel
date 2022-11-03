@@ -16,7 +16,7 @@ class WorshipController extends Controller
     public function index()
     {
         return view('admin.worship.index', [
-            'worships' => Worship::all()
+            'worships' => Worship::latest()->get()
         ]);
     }
 

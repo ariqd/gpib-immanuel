@@ -20,15 +20,19 @@ Route::get('/', function () {
 Route::resource('worships', App\Http\Controllers\WorshipController::class)->except('store');
 Route::resource('news', App\Http\Controllers\NewsController::class);
 
-Route::group(['middleware' => ['auth', 'role:Jemaat,Simpatisan']], function () {
+Route::group(['middleware' => ['auth', 'role:Simpatisan,Jemaat']], function () {
     Route::resource('worships', App\Http\Controllers\WorshipController::class)->only('store');
+    Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
+        Route::resource('bookings', App\Http\Controllers\BookingController::class)->except('create');
+        Route::get('create/{worship_id}/{booking_id}', [App\Http\Controllers\BookingController::class, 'create'])->name('bookings.create');
+    });
 });
 
 Route::get('/dashboard', function () {
     return view('dashboard');
 })->middleware(['auth'])->name('dashboard');
 
-require __DIR__.'/auth.php';
+require __DIR__ . '/auth.php';
 
 Route::group(['middleware' => ['auth', 'role:Admin'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::resource('worships', App\Http\Controllers\Admin\WorshipController::class);
