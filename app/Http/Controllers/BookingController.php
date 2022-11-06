@@ -28,6 +28,8 @@ class BookingController extends Controller
             ->latest()
             ->get();
 
+        // dd($worships[0]->bookings->groupBy('booking_id'));
+
         return view('booking.index', [
             'worships' => $worships
         ]);
