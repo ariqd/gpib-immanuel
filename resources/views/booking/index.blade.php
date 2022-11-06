@@ -38,22 +38,43 @@
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <table class="table">
-                                                <thead>
-                                                    <tr>
-                                                        <th>Kursi</th>
-                                                        <th>Nama</th>
-                                                    </tr>
-                                                </thead>
-                                                <tbody>
-                                                    @foreach ($worship->bookings as $booking)
+                                            @foreach ($worship->bookings->groupBy('booking_id') as $booking_id => $bookings)
+                                                <div class="d-flex justify-content-between align-items-baseline">
+                                                    <h5>Booking ID: {{ $booking_id }}</h5>
+
+                                                    <button type="button" class="btn btn-primary btn-sm"
+                                                        data-bs-toggle="collapse"
+                                                        data-bs-target="#collapse-{{ $booking_id }}" aria-expanded="false"
+                                                        aria-controls="collapse-{{ $booking_id }}">
+                                                        Lihat Barcode
+                                                    </button>
+                                                </div>
+
+                                                <div class="collapse mt-2" id="collapse-{{ $booking_id }}">
+                                                    <div class="card card-body">
+                                                        <div class="d-flex justify-content-center">
+                                                            {!! DNS2D::getBarcodeHTML($booking_id, 'QRCODE') !!}
+                                                        </div>
+                                                    </div>
+                                                </div>
+
+                                                <table class="table">
+                                                    <thead>
                                                         <tr>
-                                                            <td>{{ $booking->booking_seat }}</td>
-                                                            <td>{{ $booking->booking_name }}</td>
+                                                            <th>Kursi</th>
+                                                            <th>Nama</th>
                                                         </tr>
-                                                    @endforeach
-                                                </tbody>
-                                            </table>
+                                                    </thead>
+                                                    <tbody>
+                                                        @foreach ($bookings as $booking)
+                                                            <tr>
+                                                                <td>{{ $booking->booking_seat }}</td>
+                                                                <td>{{ $booking->booking_name }}</td>
+                                                            </tr>
+                                                        @endforeach
+                                                    </tbody>
+                                                </table>
+                                            @endforeach
                                         </div>
                                         {{-- <div class="modal-footer">
                                             <button type="button" class="btn btn-secondary"
