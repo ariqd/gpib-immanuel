@@ -37,13 +37,23 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'phone' => ['required', 'digits_between:10,13'],
+            'birthdate' => ['required', 'date'],
+            'vaccine' => ['required'],
+            'gender' => ['required'],
         ]);
+
+        // dd($request->all());
 
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
             'password' => Hash::make($request->password),
-            'role_id' => 3
+            'role_id' => 3,
+            'user_phone' => $request->phone,
+            'user_birthdate' => $request->birthdate,
+            'user_gender' => $request->gender,
+            'user_vaccine' => $request->vaccine,
         ]);
 
         event(new Registered($user));

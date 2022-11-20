@@ -44,6 +44,10 @@ class UserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
             'password' => ['required', Rules\Password::defaults()],
+            'user_phone' => ['required', 'digits_between:10,13'],
+            'user_birthdate' => ['required', 'date'],
+            'user_vaccine' => ['required'],
+            'user_gender' => ['required'],
         ]);
 
         User::create([
@@ -53,6 +57,10 @@ class UserController extends Controller
             'role_id' => $request->role,
             'is_created_by_admin' => TRUE,
             'is_approved' => TRUE,
+            'user_birthdate' => $request->user_birthdate,
+            'user_gender' => $request->user_gender,
+            'user_phone' => $request->user_phone,
+            'user_vaccine' => $request->user_vaccine,
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambah.');;

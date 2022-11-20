@@ -14,7 +14,7 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                <div class="p-6 bg-white border-b border-gray-200">
+                <div class="bg-white border-b border-gray-200">
                     <div class="overflow-x-auto relative">
                         <table class="w-full text-sm text-gray-500">
                             <thead class="text-xs text-gray-700 uppercase bg-gray-50">
@@ -38,16 +38,17 @@
                             </thead>
                             <tbody>
                                 @foreach ($worships as $worship)
+                                    @php($worship_date = \Carbon\Carbon::parse($worship->worship_date))
                                     <tr class="bg-white border-b">
                                         <th scope="row"
                                             class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
                                             {{ $worship->worship_name }}
                                         </th>
                                         <td class="py-4 px-6">
-                                            {{ $worship->worship_date }}
+                                            {{ $worship_date->isoFormat('dddd, D MMMM Y') }}
                                         </td>
                                         <td class="py-4 px-6">
-                                            {{ $worship->worship_time }}
+                                            {{ date('G:i', strtotime($worship->worship_time)) }}
                                         </td>
                                         <td class="py-4 px-6">
                                             {{ $worship->bookings->count() }}/50

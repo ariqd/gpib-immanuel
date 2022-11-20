@@ -27,7 +27,7 @@
                                 data-bs-target="#modal-{{ $worship->id }}">
                                 Lihat Pemegang Tiket
                             </button>
-                            <div class="modal fade" id="modal-{{ $worship->id }}" tabindex="-1"
+                            <div class="modal modal-lg fade" id="modal-{{ $worship->id }}" tabindex="-1"
                                 aria-labelledby="modalLabel-{{ $worship->id }}" aria-hidden="true">
                                 <div class="modal-dialog">
                                     <div class="modal-content">
@@ -39,30 +39,35 @@
                                         </div>
                                         <div class="modal-body">
                                             @foreach ($worship->bookings->groupBy('booking_id') as $booking_id => $bookings)
-                                                <div class="d-flex justify-content-between align-items-baseline">
-                                                    <h5>Booking ID: {{ $booking_id }}</h5>
+                                                {{-- <div class="d-flex justify-content-between align-items-baseline">
+                                                    <h5>Booking ID: {{ $booking_id }}</h5> --}}
 
-                                                    <button type="button" class="btn btn-primary btn-sm"
+                                                {{-- <button type="button" class="btn btn-primary btn-sm"
                                                         data-bs-toggle="collapse"
                                                         data-bs-target="#collapse-{{ $booking_id }}" aria-expanded="false"
                                                         aria-controls="collapse-{{ $booking_id }}">
                                                         Lihat Barcode
-                                                    </button>
-                                                </div>
+                                                    </button> --}}
+                                                {{-- </div> --}}
 
-                                                <div class="collapse mt-2" id="collapse-{{ $booking_id }}">
+                                                {{-- <div class="collapse mt-2" id="collapse-{{ $booking_id }}">
                                                     <div class="card card-body">
                                                         <div class="d-flex justify-content-center">
                                                             {!! DNS2D::getBarcodeHTML($booking_id, 'QRCODE') !!}
                                                         </div>
                                                     </div>
-                                                </div>
+                                                </div> --}}
 
-                                                <table class="table">
+                                                <table class="table align-middle">
                                                     <thead>
                                                         <tr>
                                                             <th>Kursi</th>
                                                             <th>Nama</th>
+                                                            <th>Jenis Kelamin</th>
+                                                            <th>
+                                                                {{ auth()->user()->role->role_name === 'Jemaat' ? 'Sektor' : 'Asal Gereja' }}
+                                                            </th>
+                                                            <th>QR Code</th>
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -70,7 +75,31 @@
                                                             <tr>
                                                                 <td>{{ $booking->booking_seat }}</td>
                                                                 <td>{{ $booking->booking_name }}</td>
+                                                                <td>{{ $booking->booking_gender }}</td>
+                                                                <td>{{ $booking->booking_church }}</td>
+                                                                <td>
+                                                                        <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($booking_id . '-' . $booking->booking_seat, 'QRCODE') }}"
+                                                                            alt="barcode" />
+
+                                                                    {{-- <button type="button" class="btn btn-primary btn-sm"
+                                                                        data-bs-toggle="collapse"
+                                                                        data-bs-target="#collapse-{{ $booking_id . '-' . $booking->booking_seat }}"
+                                                                        aria-expanded="false"
+                                                                        aria-controls="collapse-{{ $booking_id . '-' . $booking->booking_seat }}">
+                                                                        Lihat Barcode
+                                                                    </button> --}}
+                                                                </td>
                                                             </tr>
+                                                            {{-- <tr>
+                                                                <td colspan="5">
+                                                                    <div class="collapse mt-2"
+                                                                        id="collapse-{{ $booking_id . '-' . $booking->booking_seat }}">
+                                                                        <div class="d-flex justify-content-center">
+                                                                            {!! DNS2D::getBarcodeHTML($booking_id . '-' . $booking->booking_seat, 'QRCODE') !!}
+                                                                        </div>
+                                                                    </div>
+                                                                </td>
+                                                            </tr> --}}
                                                         @endforeach
                                                     </tbody>
                                                 </table>

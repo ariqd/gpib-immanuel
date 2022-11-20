@@ -73,7 +73,9 @@ class BookingController extends Controller
         $errors = [];
 
         $validator = Validator::make($input, [
-            'input.*' => 'required|alpha|max:255',
+            'input.*.name' => 'required|alpha|max:255',
+            'input.*.gender' => 'required',
+            'input.*.church' => 'required',
         ]);
 
         if ($validator->fails()) {
@@ -100,14 +102,16 @@ class BookingController extends Controller
         }
 
         // dd($request->all());
-        foreach ($input['input'] as $key => $name) {
+        foreach ($input['input'] as $key => $value) {
             $booking = Booking::where([
                 ['booking_id', '=', $input['booking_id']],
                 ['booking_seat', '=', $key],
                 ['fixed', '=', false],
             ])->first();
 
-            $booking->booking_name = $name;
+            $booking->booking_name = $value['name'];
+            $booking->booking_gender = $value['gender'];
+            $booking->booking_church = $value['church'];
             $booking->fixed = TRUE;
 
             $booking->save();
