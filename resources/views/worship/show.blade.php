@@ -4,7 +4,12 @@
     <div class="container-fluid py-3">
         <div class="row">
             <div class="col-12">
-                <h3>Pendaftaran Ibadah</h3>
+                <div class="d-flex justify-content-between align-items-center">
+                    <h3>Pendaftaran Ibadah</h3>
+                    <div>
+                        <span>Jumlah Pendaftar: {{ count($booked_seats) }}/50</span>
+                    </div>
+                </div>
                 <hr>
             </div>
         </div>
@@ -48,31 +53,6 @@
                             </tr>
                         </thead>
                         <tbody>
-                            {{-- @php
-                                function generateSeat($row_number)
-                                {
-                                    if ($row_number == 1) {
-                                        return 'A';
-                                    } elseif ($row_number == 2) {
-                                        return 'B';
-                                    } elseif ($row_number == 3) {
-                                        return 'C';
-                                    } elseif ($row_number == 4) {
-                                        return 'D';
-                                    } elseif ($row_number == 5) {
-                                        return 'E';
-                                    } elseif ($row_number == 6) {
-                                        return 'F';
-                                    } elseif ($row_number == 7) {
-                                        return 'G';
-                                    } elseif ($row_number == 8) {
-                                        return 'H';
-                                    } elseif ($row_number == 9) {
-                                        return 'I';
-                                    }
-                                }
-                            @endphp --}}
-
                             @include('worship.seats.row_1')
                             @include('worship.seats.row_2')
                             @include('worship.seats.row_3')

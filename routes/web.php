@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 
 /*
 |--------------------------------------------------------------------------
@@ -13,12 +14,11 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', function () {
-    return view('index');
-});
+Route::get('/', [HomeController::class, 'index']);
 
 Route::resource('worships', App\Http\Controllers\WorshipController::class)->except('store');
 Route::resource('news', App\Http\Controllers\NewsController::class);
+Route::get('news/download/{file}', [App\Http\Controllers\NewsController::class, 'download'])->name('news.download');
 
 Route::group(['middleware' => ['auth', 'role:Simpatisan,Jemaat']], function () {
     Route::resource('worships', App\Http\Controllers\WorshipController::class)->only('store');
