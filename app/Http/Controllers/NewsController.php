@@ -2,7 +2,10 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\News;
 use Illuminate\Http\Request;
+use Carbon\Carbon;
+use Illuminate\Support\Facades\Storage;
 
 class NewsController extends Controller
 {
@@ -11,9 +14,12 @@ class NewsController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('news.index');
+        return view('news.index', [
+            'news' => $request->get('date') ? News::whereDate('created_at', '=', $request->get('date'))->latest()->get() : News::latest()->get(),
+            'date' => $request->get('date')
+        ]);
     }
 
     /**
@@ -43,9 +49,11 @@ class NewsController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(News $news)
     {
-        //
+        return view('news.show', [
+            'news' => $news,
+        ]);
     }
 
     /**
@@ -81,4 +89,8 @@ class NewsController extends Controller
     {
         //
     }
+
+    public function download($file){
+        return Storage::disk('public_uploads')->download('news/pdf/' . $file);
+     }
 }

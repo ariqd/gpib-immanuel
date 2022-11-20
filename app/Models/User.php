@@ -23,7 +23,11 @@ class User extends Authenticatable
         'password',
         'role_id',
         'is_approved',
-        'is_created_by_admin'
+        'is_created_by_admin',
+        'user_birthdate',
+        'user_phone',
+        'user_gender',
+        'user_vaccine',
     ];
 
     /**

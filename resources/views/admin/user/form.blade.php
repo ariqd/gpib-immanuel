@@ -27,7 +27,8 @@
                         <div class="mb-6">
                             <label for="new_email" class="block mb-2 text-sm font-medium text-gray-900">Email</label>
                             <input type="new_email" id="new_email" autocomplete="nope" aria-autocomplete="none"
-                                role="presentation" name="email" {{ @$user && !@$user->is_created_by_admin ? 'disabled' : '' }}
+                                role="presentation" name="email"
+                                {{ @$user && !@$user->is_created_by_admin ? 'disabled' : '' }}
                                 class="bg-{{ @$user && !@$user->is_created_by_admin ? 'gray-300' : 'white' }} border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 placeholder="Email" required value="{{ @$user->email }}">
                         </div>
@@ -48,9 +49,81 @@
                             <select {{ @$user && !@$user->is_created_by_admin ? 'disabled' : '' }}
                                 class="bg-{{ @$user && !@$user->is_created_by_admin ? 'gray-300' : 'white' }} border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                                 name="role" id="role">
-                                <option value="1">Admin</option>
-                                <option value="2" selected>Jemaat</option>
-                                <option value="3">Simpatisan</option>
+                                <option value="2" {{ @$user && @$user->role_id == 2 ? 'selected' : '' }}>
+                                    Jemaat
+                                </option>
+                                <option value="3" {{ @$user && @$user->role_id == 3 ? 'selected' : '' }}>
+                                    Simpatisan
+                                </option>
+                                <option value="1" {{ @$user && @$user->role_id == 1 ? 'selected' : '' }}>
+                                    Admin
+                                </option>
+                            </select>
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="phone" class="block mb-2 text-sm font-medium text-gray-900">No.
+                                Handphone</label>
+                            <input type="text" id="phone" autocomplete="nope" aria-autocomplete="none"
+                                role="presentation" name="user_phone"
+                                {{ @$user && !@$user->is_created_by_admin ? 'disabled' : '' }}
+                                class="bg-{{ @$user && !@$user->is_created_by_admin ? 'gray-300' : 'white' }} border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                placeholder="No. Handphone" required value="{{ @$user->user_phone }}">
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="birthdate" class="block mb-2 text-sm font-medium text-gray-900">Tanggal
+                                Lahir</label>
+                            <input type="date" id="birthdate" autocomplete="nope" aria-autocomplete="none"
+                                max="{{ date('Y-m-d') }}" role="presentation" name="user_birthdate"
+                                {{ @$user && !@$user->is_created_by_admin ? 'disabled' : '' }}
+                                class="bg-{{ @$user && !@$user->is_created_by_admin ? 'gray-300' : 'white' }} border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                placeholder="Tanggal Lahir" required value="{{ @$user->user_birthdate }}">
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="gender" class="block mb-2 text-sm font-medium text-gray-900">Jenis
+                                Kelamin</label>
+                            <div class="flex items-center mb-4">
+                                <input {{ @$user->user_gender == 'Pria' ? 'checked' : '' }} id="gender-1"
+                                    type="radio" value="Pria" name="user_gender"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                                <label for="gender-1" class="ml-2 text-sm font-medium text-gray-900">
+                                    Pria
+                                </label>
+                            </div>
+                            <div class="flex items-center">
+                                <input {{ @$user->user_gender == 'Wanita' ? 'checked' : '' }} id="gender-2"
+                                    type="radio" value="Wanita" name="user_gender"
+                                    class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
+                                <label for="gender-2" class="ml-2 text-sm font-medium text-gray-900">
+                                    Wanita
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="mb-6">
+                            <label for="user_vaccine" class="block mb-2 text-sm font-medium text-gray-900">Vaksin
+                                Terakhir</label>
+                            <select {{ @$user && !@$user->is_created_by_admin ? 'disabled' : '' }}
+                                class="bg-{{ @$user && !@$user->is_created_by_admin ? 'gray-300' : 'white' }} border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                name="user_vaccine" id="user_vaccine">
+                                <option value="Vaksin Booster"
+                                    {{ @$user && @$user->user_vaccine == 'Vaksin Booster' ? 'selected' : '' }}>
+                                    Vaksin Booster
+                                </option>
+                                <option value="Vaksin 2"
+                                    {{ @$user && @$user->user_vaccine == 'Vaksin 2' ? 'selected' : '' }}>
+                                    Vaksin 2
+                                </option>
+                                <option value="Vaksin 1"
+                                    {{ @$user && @$user->user_vaccine == 'Vaksin 1' ? 'selected' : '' }}>
+                                    Vaksin 1
+                                </option>
+                                <option value="Belum Vaksin"
+                                    {{ @$user && @$user->user_vaccine == 'Belum Vaksin' ? 'selected' : '' }}>
+                                    Belum Vaksin
+                                </option>
                             </select>
                         </div>
 
@@ -59,19 +132,18 @@
                                 <label for="role"
                                     class="block mb-2 text-sm font-medium text-gray-900">Status</label>
                                 <div class="flex items-center mb-4">
-                                    <input {{ @$user->is_approved ? 'checked' : '' }} id="status-1" type="radio" value="1" name="status"
+                                    <input {{ @$user->is_approved ? 'checked' : '' }} id="status-1" type="radio"
+                                        value="1" name="status"
                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                    <label for="status-1"
-                                        class="ml-2 text-sm font-medium text-gray-900">
+                                    <label for="status-1" class="ml-2 text-sm font-medium text-gray-900">
                                         Approved
                                     </label>
                                 </div>
                                 <div class="flex items-center">
-                                    <input {{ !@$user->is_approved ? 'checked' : '' }} id="status-2" type="radio" value="0"
-                                        name="status"
+                                    <input {{ !@$user->is_approved ? 'checked' : '' }} id="status-2" type="radio"
+                                        value="0" name="status"
                                         class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
-                                    <label for="status-2"
-                                        class="ml-2 text-sm font-medium text-gray-900">
+                                    <label for="status-2" class="ml-2 text-sm font-medium text-gray-900">
                                         Not Approved
                                     </label>
                                 </div>

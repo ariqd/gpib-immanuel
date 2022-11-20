@@ -9,11 +9,12 @@
                     <div>
                         <form class="row">
                             <div class="col-auto">
-                                <label for="date" class="mt-2">Masukkan tanggal</label>
+                                <label for="date" class="mt-2">Cari berita di tanggal</label>
                             </div>
                             <div class="col-auto">
                                 <label for="date" class="visually-hidden">Tanggal</label>
-                                <input type="date" class="form-control" id="date" placeholder="Tanggal">
+                                <input type="date" class="form-control" id="date" max="<?= date('Y-m-d') ?>"
+                                    name="date" value="{{ @$date }}" />
                             </div>
                             <div class="col-auto">
                                 <button type="submit" class="btn btn-primary">Cari</button>
@@ -26,94 +27,32 @@
         </div>
 
         <div class="row">
-            <div class="col-6 mb-3">
-                <div class="card">
-                    <div class="row">
-                        <div class="col-3">
-                            <img src="https://via.placeholder.com/150x250" alt="...">
-                        </div>
-                        <div class="col-9">
-                            <div class="border-bottom d-flex justify-content-between">
-                                <p class="m-0 p-2">Warta Jemaat</p>
-                                <p class="m-0 p-2">04 Juli 2022</p>
+            @foreach ($news as $news)
+                <div class="col-6 mb-3">
+                    <div class="card">
+                        <div class="row">
+                            <div class="col-3">
+                                <div
+                                    style="
+                                width: 100%;
+                                height: 250px;
+                                background: url('{{ asset('uploads/news/image/' . $news->news_image) }}')
+                                no-repeat center; background-size: cover;">
+                                </div>
                             </div>
-                            <p class="mt-2"><b>Hari Minggu Sesudah Pentakosta</b></p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed, accusantium! Ratione
-                                voluptatem ducimus doloremque, sunt doloribus nulla, veritatis similique optio nihil
-                                voluptatum, asperiores itaque cum placeat maxime iusto fugiat eveniet.
-                            </p>
-                            <a href="#">Baca Selengkapnya</a>
+                            <div class="col-9 ">
+                                <div class="border-bottom d-flex justify-content-between">
+                                    <p class="m-0 p-2">{{ $news->news_type }}</p>
+                                    <p class="m-0 p-2"> {{ $news->created_at->isoFormat('D MMMM Y') }}</p>
+                                </div>
+                                <p class="mt-2"><b>{{ $news->news_title }}</b></p>
+                                <p>{!! mb_strimwidth($news->news_content, 0, 250, '...') !!}</p>
+                                <a href="{{ route('news.show', $news) }}">Baca Selengkapnya</a>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-6 mb-3">
-                <div class="card">
-                    <div class="row">
-                        <div class="col-3">
-                            <img src="https://via.placeholder.com/150x250" alt="...">
-                        </div>
-                        <div class="col-9">
-                            <div class="border-bottom d-flex justify-content-between">
-                                <p class="m-0 p-2">Warta Jemaat</p>
-                                <p class="m-0 p-2">04 Juli 2022</p>
-                            </div>
-                            <p class="mt-2"><b>Hari Minggu Sesudah Pentakosta</b></p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed, accusantium! Ratione
-                                voluptatem ducimus doloremque, sunt doloribus nulla, veritatis similique optio nihil
-                                voluptatum, asperiores itaque cum placeat maxime iusto fugiat eveniet.
-                            </p>
-                            <a href="#">Baca Selengkapnya</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 mb-3">
-                <div class="card">
-                    <div class="row">
-                        <div class="col-3">
-                            <img src="https://via.placeholder.com/150x250" alt="...">
-                        </div>
-                        <div class="col-9">
-                            <div class="border-bottom d-flex justify-content-between">
-                                <p class="m-0 p-2">Warta Jemaat</p>
-                                <p class="m-0 p-2">04 Juli 2022</p>
-                            </div>
-                            <p class="mt-2"><b>Hari Minggu Sesudah Pentakosta</b></p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed, accusantium! Ratione
-                                voluptatem ducimus doloremque, sunt doloribus nulla, veritatis similique optio nihil
-                                voluptatum, asperiores itaque cum placeat maxime iusto fugiat eveniet.
-                            </p>
-                            <a href="#">Baca Selengkapnya</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="col-6 mb-3">
-                <div class="card">
-                    <div class="row">
-                        <div class="col-3">
-                            <img src="https://via.placeholder.com/150x250" alt="...">
-                        </div>
-                        <div class="col-9">
-                            <div class="border-bottom d-flex justify-content-between">
-                                <p class="m-0 p-2">Warta Jemaat</p>
-                                <p class="m-0 p-2">04 Juli 2022</p>
-                            </div>
-                            <p class="mt-2"><b>Hari Minggu Sesudah Pentakosta</b></p>
-                            <p>
-                                Lorem ipsum dolor sit amet, consectetur adipisicing elit. Sed, accusantium! Ratione
-                                voluptatem ducimus doloremque, sunt doloribus nulla, veritatis similique optio nihil
-                                voluptatum, asperiores itaque cum placeat maxime iusto fugiat eveniet.
-                            </p>
-                            <a href="#">Baca Selengkapnya</a>
-                        </div>
-                    </div>
-                </div>
-            </div>
+            @endforeach
         </div>
     </div>
 @endsection
