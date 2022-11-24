@@ -51,9 +51,9 @@ class BookingController extends Controller
                 'booking_id' => $booking_id,
                 'worship_id' => $worship_id,
             ]);
-        } else {
-            return redirect('/');
         }
+
+        return redirect('/');
     }
 
     /**
