@@ -28,8 +28,6 @@ class BookingController extends Controller
             ->latest()
             ->get();
 
-        // dd($worships[0]->bookings->groupBy('booking_id'));
-
         return view('booking.index', [
             'worships' => $worships
         ]);
@@ -46,8 +44,6 @@ class BookingController extends Controller
             ['booking_id', '=', $booking_id],
             ['fixed', '=', 0],
         ])->get();
-
-        // dd($bookings);
 
         if (!$bookings->isEmpty()) {
             return view('booking.form', [
@@ -101,7 +97,6 @@ class BookingController extends Controller
             return redirect()->route('worships.show', $worship_id)->withErrors($errors);
         }
 
-        // dd($request->all());
         foreach ($input['input'] as $key => $value) {
             $booking = Booking::where([
                 ['booking_id', '=', $input['booking_id']],

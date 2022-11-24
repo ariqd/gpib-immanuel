@@ -40,8 +40,6 @@ class WorshipController extends Controller
      */
     public function store(Request $request)
     {
-        // dd($request->all());
-
         $input = $request->all();
         $booking_id = Str::random(10);
         $errors = [];
@@ -75,7 +73,6 @@ class WorshipController extends Controller
             ]);
         }
 
-        // return redirect()->route('worships.show', $input['worship_id'])->with('success', 'Kursi berhasil dibooking.');;
         return redirect()->route('profile.bookings.create', ['booking_id' => $booking_id, 'worship_id' => $worship_id])->with('success', 'Silahkan isi nama pemilik kursi untuk menyelesaikan pemesanan.');;
     }
 

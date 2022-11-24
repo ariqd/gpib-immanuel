@@ -44,8 +44,6 @@ class RegisteredUserController extends Controller
             'user_church' => ['required'],
         ]);
 
-        // dd($request->all());
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -60,9 +58,6 @@ class RegisteredUserController extends Controller
 
         event(new Registered($user));
 
-        // Auth::login($user);
-
         return redirect('/')->with('success', 'Selamat, pendaftaran berhasil! Anda dapat login setelah data anda berhasil diverifikasi oleh Admin');
-        // return redirect(RouteServiceProvider::HOME);
     }
 }
