@@ -13,6 +13,7 @@ class Worship extends Model
         'worship_name',
         'worship_date',
         'worship_time',
+        'worship_image',
     ];
 
     public function bookings()

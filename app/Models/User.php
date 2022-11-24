@@ -28,6 +28,7 @@ class User extends Authenticatable
         'user_phone',
         'user_gender',
         'user_vaccine',
+        'user_church',
     ];
 
     /**

@@ -82,10 +82,19 @@
                         </div>
 
                         <div class="mb-6">
+                            <label for="user_church" class="block mb-2 text-sm font-medium text-gray-900">Asal Gereja {{ @$user && !@$user->is_created_by_admin ? '' : '/ Sektor (opsional)' }}</label>
+                            <input type="text" id="user_church" autocomplete="nope" aria-autocomplete="none"
+                                role="presentation" name="user_church"
+                                {{ @$user && !@$user->is_created_by_admin ? 'disabled' : '' }}
+                                class="bg-{{ @$user && !@$user->is_created_by_admin ? 'gray-300' : 'white' }} border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                                placeholder="Asal Gereja" value="{{ @$user->user_church }}">
+                        </div>
+
+                        <div class="mb-6">
                             <label for="gender" class="block mb-2 text-sm font-medium text-gray-900">Jenis
                                 Kelamin</label>
                             <div class="flex items-center mb-4">
-                                <input {{ @$user->user_gender == 'Pria' ? 'checked' : '' }} id="gender-1"
+                                <input {{ @$user->user_gender == 'Pria' ? 'checked' : (@$user->user_gender == 'Wanita' ? 'disabled' : '') }} id="gender-1"
                                     type="radio" value="Pria" name="user_gender"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
                                 <label for="gender-1" class="ml-2 text-sm font-medium text-gray-900">
@@ -93,7 +102,7 @@
                                 </label>
                             </div>
                             <div class="flex items-center">
-                                <input {{ @$user->user_gender == 'Wanita' ? 'checked' : '' }} id="gender-2"
+                                <input {{ @$user->user_gender == 'Wanita' ? 'checked' : (@$user->user_gender == 'Pria' ? 'disabled' : '') }} id="gender-2"
                                     type="radio" value="Wanita" name="user_gender"
                                     class="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500">
                                 <label for="gender-2" class="ml-2 text-sm font-medium text-gray-900">

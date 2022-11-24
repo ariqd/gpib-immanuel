@@ -91,9 +91,9 @@ class WorshipController extends Controller
             ['worship_id', '=', $id],
             ['fixed', '=', TRUE],
         ])->pluck('booking_seat')->toArray();
-        // dd($booked_seats);
+
         return view('worship.show', [
-            'worship_id' => $id,
+            'worship' => Worship::find($id),
             'booked_seats' => $booked_seats
         ]);
     }
