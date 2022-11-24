@@ -41,6 +41,7 @@ class RegisteredUserController extends Controller
             'birthdate' => ['required', 'date'],
             'vaccine' => ['required'],
             'gender' => ['required'],
+            'user_church' => ['required'],
         ]);
 
         // dd($request->all());
@@ -54,6 +55,7 @@ class RegisteredUserController extends Controller
             'user_birthdate' => $request->birthdate,
             'user_gender' => $request->gender,
             'user_vaccine' => $request->vaccine,
+            'user_church' => $request->user_church,
         ]);
 
         event(new Registered($user));

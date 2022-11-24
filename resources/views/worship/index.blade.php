@@ -13,7 +13,12 @@
                 @php($worship_date = \Carbon\Carbon::parse($worship->worship_date))
                 <div class="col-6 mt-3">
                     <div class="card">
-                        <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="...">
+                        <div style="
+                        width: 100%;
+                        height: 300px;
+                        background: url('{{ @$worship->worship_image ? asset('uploads/worship/image/' . @$worship->worship_image) : 'https://via.placeholder.com/300x150' }}')
+                        no-repeat center; background-size: cover;"
+                            class="card-img-top" alt="{{ $worship->worship_name }}"></div>
                         <div class="card-body">
                             <h5 class="card-title">{{ $worship->worship_name }}</h5>
                             <p class="card-text">Tanggal: {{ $worship_date->isoFormat('dddd, D MMMM Y') }} <br> Waktu:
