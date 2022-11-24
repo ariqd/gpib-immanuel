@@ -61,6 +61,7 @@ class UserController extends Controller
             'user_gender' => $request->user_gender,
             'user_phone' => $request->user_phone,
             'user_vaccine' => $request->user_vaccine,
+            'user_church' => $request->user_church,
         ]);
 
         return redirect()->route('admin.users.index')->with('success', 'User berhasil ditambah.');;

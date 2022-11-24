@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Admin;
 use App\Http\Controllers\Controller;
 use App\Models\Worship;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Storage;
 
 class WorshipController extends Controller
 {
@@ -42,12 +43,22 @@ class WorshipController extends Controller
             'worship_name' => ['required', 'string', 'max:255'],
             'worship_date' => ['required', 'date'],
             'worship_time' => ['required'],
+            'worship_image' => ['required', 'mimes:jpeg,jpg,png'],
         ]);
 
+        $input = $request->all();
+
+        if (@$request->worship_image) {
+            $imageName = time() . '_' . strtoupper(str_replace(' ', '_', pathinfo($request->worship_image->getClientOriginalName(), PATHINFO_FILENAME))) . '.' . $request->worship_image->getClientOriginalExtension();
+            $request->worship_image->storeAs('worship/image', $imageName, 'public_uploads');
+            $input['worship_image'] = $imageName;
+        }
+
         Worship::create([
-            'worship_name' => $request->worship_name,
-            'worship_date' => $request->worship_date,
-            'worship_time' => $request->worship_time,
+            'worship_name' => $input['worship_name'],
+            'worship_date' => $input['worship_date'],
+            'worship_time' => $input['worship_time'],
+            'worship_image' => $input['worship_image'],
         ]);
 
         return redirect()->route('admin.worships.index')->with('success', 'Ibadah berhasil ditambah.');;
@@ -86,11 +97,27 @@ class WorshipController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $request->validate([
+            'worship_name' => ['string', 'max:255'],
+            'worship_date' => ['date'],
+            'worship_image' => ['mimes:jpeg,jpg,png'],
+        ]);
+
+        $input = $request->all();
         $worship = Worship::find($id);
 
-        $worship->worship_name = $request->worship_name;
-        $worship->worship_date = $request->worship_date;
-        $worship->worship_time = $request->worship_time;
+        if (@$request->worship_image) {
+            Storage::disk('public_uploads')->delete('worship/image/' . $worship->worship_image);
+
+            $imageName = time() . '_' . strtoupper(str_replace(' ', '_', pathinfo($request->worship_image->getClientOriginalName(), PATHINFO_FILENAME))) . '.' . $request->worship_image->getClientOriginalExtension();
+            $request->worship_image->storeAs('worship/image', $imageName, 'public_uploads');
+            $input['worship_image'] = $imageName;
+        }
+
+        $worship->worship_name = $input['worship_name'];
+        $worship->worship_date = $input['worship_date'];
+        $worship->worship_time = $input['worship_time'];
+        $worship->worship_image = $input['worship_image'];
 
         $worship->save();
 

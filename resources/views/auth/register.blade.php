@@ -56,6 +56,13 @@
             </div>
 
             <div class="mt-4">
+                <x-label for="user_church" :value="__('Asal Gereja')" />
+
+                <x-input id="user_church" class="block mt-1 w-full" type="text" name="user_church" :value="old('user_church')"
+                    required />
+            </div>
+
+            <div class="mt-4">
                 <x-label for="birthdate" :value="__('Tanggal Lahir')" />
 
                 <x-input id="birthdate" class="block mt-1 w-full" type="date" name="birthdate" :value="old('birthdate')"

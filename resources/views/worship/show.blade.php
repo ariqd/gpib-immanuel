@@ -5,7 +5,7 @@
         <div class="row">
             <div class="col-12">
                 <div class="d-flex justify-content-between align-items-center">
-                    <h3>Pendaftaran Ibadah</h3>
+                    <h3>Pendaftaran Ibadah | {{ $worship->worship_name }}</h3>
                     <div>
                         <span>Jumlah Pendaftar: {{ count($booked_seats) }}/50</span>
                     </div>
@@ -16,7 +16,7 @@
         <div class="row">
             <form action="{{ route('worships.store') }}" method="POST">
                 @csrf
-                <input type="hidden" name="worship_id" value="{{ $worship_id }}">
+                <input type="hidden" name="worship_id" value="{{ $worship->id }}">
                 <div class="table-responsive">
                     <table class="table table-borderless">
                         <thead>
