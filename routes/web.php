@@ -38,4 +38,5 @@ Route::group(['middleware' => ['auth', 'role:Admin'], 'prefix' => 'admin', 'as' 
     Route::resource('worships', App\Http\Controllers\Admin\WorshipController::class);
     Route::resource('news', App\Http\Controllers\Admin\NewsController::class);
     Route::resource('users', App\Http\Controllers\Admin\UserController::class);
+    Route::resource('carousel', App\Http\Controllers\Admin\CarouselController::class);
 });

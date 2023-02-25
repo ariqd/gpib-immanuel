@@ -25,6 +25,9 @@
                     <x-nav-link :href="route('admin.users.index')" :active="request()->routeIs('admin.users*')">
                         {{ __('User') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.carousel.index')" :active="request()->routeIs('admin.carousel*')">
+                        {{ __('Carousel') }}
+                    </x-nav-link>
                 </div>
             </div>
 
