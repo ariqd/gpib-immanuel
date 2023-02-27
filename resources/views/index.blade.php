@@ -1,6 +1,34 @@
 @extends('layouts.main')
 
 @section('content')
+    @if (!empty($carousel_images))
+        <div class="container py-3">
+            <div class="row">
+                <div class="col-12">
+                    <div id="carouselExampleControls" class="carousel slide" data-bs-ride="carousel">
+                        <div class="carousel-inner" role="listbox" style="max-width:100%; max-height:500px !important;">
+                            @foreach ($carousel_images as $image)
+                                <div class="carousel-item @if ($loop->first) active @endif">
+                                    <img src="{{ asset('uploads/carousel/image/' . @$image->carousel_image) }}"
+                                        class="d-block w-100">
+                                </div>
+                            @endforeach
+                        </div>
+                        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
+                            data-bs-slide="prev">
+                            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Previous</span>
+                        </button>
+                        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
+                            data-bs-slide="next">
+                            <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                            <span class="visually-hidden">Next</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    @endif
     <div class="container py-3">
         <div class="row">
             <div class="col-12">

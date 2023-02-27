@@ -55,6 +55,8 @@
             {{ $slot }}
         </main>
     </div>
+
+    {{ @$js }}
 </body>
 
 </html>

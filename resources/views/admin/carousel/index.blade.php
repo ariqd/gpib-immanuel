@@ -23,7 +23,10 @@
                                         Gambar
                                     </th>
                                     <th scope="col" class="py-4 px-6">
-                                        Dibuat Tanggal
+                                        Tanggal Dibuat
+                                    </th>
+                                    <th scope="col" class="py-4 px-6">
+                                        Tanggal Diperbarui
                                     </th>
                                     <th scope="col" class="py-4 px-6">
 
@@ -33,15 +36,24 @@
                             <tbody>
                                 @foreach ($carousel as $image)
                                     <tr class="bg-white border-b">
-                                        <td scope="col" class="py-4 px-6">
-                                            <img src="{{ asset('uploads/carousel/image/' . @$image->carousel_image) }}" width="200" />
+                                        <td scope="col" class="py-4 px-6 d-flex align-items-center">
+                                            <img src="{{ asset('uploads/carousel/image/' . @$image->carousel_image) }}"
+                                                width="200" />
                                         </td>
-                                        <td scope="col" class="py-4 px-6">{{ $image->created_at }}</td>
-                                        <td>
+                                        <td scope="col" class="py-4 px-6 text-center">{{ $image->created_at }}</td>
+                                        <td scope="col" class="py-4 px-6 text-center">{{ $image->updated_at }}</td>
+                                        <td scope="col">
                                             <a type="button" href="{{ route('admin.carousel.edit', $image->id) }}"
                                                 class="text-white bg-yellow-500 hover:bg-yellow-600 focus:ring-4 focus:ring-yellow-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none">
                                                 Edit
                                             </a>
+                                            <form action="{{ route('admin.carousel.destroy', $image->id) }}"
+                                                method="post">
+                                                {{ csrf_field() }}
+                                                {{ method_field('DELETE') }}
+                                                <button
+                                                    id="btnDelete"class="text-white bg-red-500 hover:bg-red-600 focus:ring-4 focus:ring-red-300 font-medium rounded-lg text-sm px-5 py-2.5 mr-2 mb-2 focus:outline-none delete-user">Hapus</button>
+                                            </form>
                                         </td>
                                     </tr>
                                 @endforeach
@@ -52,4 +64,19 @@
             </div>
         </div>
     </div>
+
+    <x-slot name="js">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
+
+        <script>
+            $('.delete-user').click(function(e) {
+                e.preventDefault() // Don't post the form, unless confirmed
+                if (confirm('Apa anda yakin akan menghapus gambar?')) {
+                    // Post the form
+                    $(e.target).closest('form').submit() // Post the surrounding form
+                }
+            });
+        </script>
+    </x-slot>
 </x-app-layout>
