@@ -12,7 +12,6 @@ class HomeController extends Controller
 {
     public function index()
     {
-        // dd(Carousel::all());
         return view('index', [
             'warta' => News::where('news_type', 'Warta')->latest()->first(),
             'tata' => News::where('news_type', 'Tata Ibadah')->latest()->first(),
