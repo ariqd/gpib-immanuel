@@ -99,6 +99,7 @@ class NewsController extends Controller
             $imageName = time() . '_' . strtoupper(str_replace(' ', '_', pathinfo($request->news_image->getClientOriginalName(), PATHINFO_FILENAME))) . '.' . $request->news_image->getClientOriginalExtension();
             $request->news_image->storeAs('news/image', $imageName, 'public_uploads');
             $input['news_image'] = $imageName;
+            $news->news_image = $input['news_image'];
         }
 
         if (@$request->news_file) {
@@ -107,13 +108,12 @@ class NewsController extends Controller
             $pdfName = time() . '_' . strtoupper(str_replace(' ', '_', pathinfo($request->news_file->getClientOriginalName(), PATHINFO_FILENAME))) . '.' . $request->news_file->getClientOriginalExtension();
             $request->news_file->storeAs('news/pdf', $pdfName, 'public_uploads');
             $input['news_file'] = $pdfName;
+            $news->news_file = $input['news_file'];
         }
 
         $news->news_title = $input['news_title'];
         $news->news_content = $input['news_content'];
         $news->news_type = $input['news_type'];
-        $news->news_image = $input['news_image'];
-        $news->news_file = $input['news_file'];
 
         $news->save();
 

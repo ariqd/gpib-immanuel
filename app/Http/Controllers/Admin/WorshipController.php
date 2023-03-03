@@ -112,12 +112,12 @@ class WorshipController extends Controller
             $imageName = time() . '_' . strtoupper(str_replace(' ', '_', pathinfo($request->worship_image->getClientOriginalName(), PATHINFO_FILENAME))) . '.' . $request->worship_image->getClientOriginalExtension();
             $request->worship_image->storeAs('worship/image', $imageName, 'public_uploads');
             $input['worship_image'] = $imageName;
+            $worship->worship_image = $input['worship_image'];
         }
 
         $worship->worship_name = $input['worship_name'];
         $worship->worship_date = $input['worship_date'];
         $worship->worship_time = $input['worship_time'];
-        $worship->worship_image = $input['worship_image'];
 
         $worship->save();
 

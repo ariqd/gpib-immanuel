@@ -118,12 +118,13 @@ class CarouselController extends Controller
             $imageName = time() . '_' . strtoupper(str_replace(' ', '_', pathinfo($request->carousel_image->getClientOriginalName(), PATHINFO_FILENAME))) . '.' . $request->carousel_image->getClientOriginalExtension();
             $request->carousel_image->storeAs('carousel/image', $imageName, 'public_uploads');
             $input['carousel_image'] = $imageName;
+            $carousel->carousel_image = $input['carousel_image'];
+            $carousel->save();
+
+            return redirect()->route('admin.carousel.index')->with('success', 'Berhasil memperbarui Gambar.');
         }
 
-        $carousel->carousel_image = $input['carousel_image'];
-        $carousel->save();
-
-        return redirect()->route('admin.carousel.index')->with('success', 'Berhasil memperbarui Gambar.');
+        return redirect()->route('admin.carousel.index')->with('warning', 'Gagal memperbarui gambar. Tidak ada gambar yang di-upload.');
     }
 
     /**
