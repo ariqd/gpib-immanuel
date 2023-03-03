@@ -58,7 +58,7 @@
                                                     </div>
                                                 </div> --}}
 
-                                                <table class="table align-middle">
+                                                <table class="table align-middle table-borderless">
                                                     <thead>
                                                         <tr>
                                                             <th>Kursi</th>
@@ -78,19 +78,19 @@
                                                                 <td>{{ $booking->booking_gender }}</td>
                                                                 <td>{{ $booking->booking_church }}</td>
                                                                 <td>
-                                                                        <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($booking_id . '-' . $booking->booking_seat, 'QRCODE') }}"
-                                                                            alt="barcode" />
+                                                                        {{-- <img src="data:image/png;base64,{{ DNS2D::getBarcodePNG($booking_id . '-' . $booking->booking_seat, 'QRCODE') }}"
+                                                                            alt="barcode" /> --}}
 
-                                                                    {{-- <button type="button" class="btn btn-primary btn-sm"
+                                                                    <button type="button" class="btn btn-primary btn-sm"
                                                                         data-bs-toggle="collapse"
                                                                         data-bs-target="#collapse-{{ $booking_id . '-' . $booking->booking_seat }}"
                                                                         aria-expanded="false"
                                                                         aria-controls="collapse-{{ $booking_id . '-' . $booking->booking_seat }}">
                                                                         Lihat Barcode
-                                                                    </button> --}}
+                                                                    </button>
                                                                 </td>
                                                             </tr>
-                                                            {{-- <tr>
+                                                            <tr>
                                                                 <td colspan="5">
                                                                     <div class="collapse mt-2"
                                                                         id="collapse-{{ $booking_id . '-' . $booking->booking_seat }}">
@@ -99,7 +99,7 @@
                                                                         </div>
                                                                     </div>
                                                                 </td>
-                                                            </tr> --}}
+                                                            </tr>
                                                         @endforeach
                                                     </tbody>
                                                 </table>

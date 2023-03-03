@@ -19,6 +19,9 @@
                     <x-nav-link :href="route('admin.worships.index')" :active="request()->routeIs('admin.worships*')">
                         {{ __('Ibadah') }}
                     </x-nav-link>
+                    <x-nav-link :href="route('admin.attendance.index')" :active="request()->routeIs('admin.attendance*')">
+                        {{ __('Pendaftaran') }}
+                    </x-nav-link>
                     <x-nav-link :href="route('admin.news.index')" :active="request()->routeIs('admin.news*')">
                         {{ __('Berita') }}
                     </x-nav-link>
