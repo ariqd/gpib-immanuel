@@ -13,20 +13,73 @@
                 <div class="bg-white border-b border-gray-200 p-4">
                     <div id="reader" width="600px"></div>
 
-                    <input type="text" id="result" class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
+                    <input type="text" id="result"
+                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 </div>
             </div>
         </div>
     </div>
 
     <x-slot name="js">
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"
+            integrity="sha256-/xUj+3OJU5yExlq6GSYGSHk7tPXikynS7ogEvDej/m4=" crossorigin="anonymous"></script>
         <script src="https://unpkg.com/html5-qrcode" type="text/javascript"></script>
+        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 
         <script>
+            let csrf_token = $('meta[name="csrf-token"]').attr('content');
+
             function onScanSuccess(decodedText, decodedResult) {
-                // handle the scanned code as you like, for example:
-                // console.log(`Code matched = ${decodedText}`, decodedResult);
                 document.getElementById('result').value = decodedText
+
+                html5QrcodeScanner.pause();
+
+                $.ajax({
+                    url: "{{ route('admin.attendance.validate') }}",
+                    type: 'POST',
+                    dataType: "json",
+                    data: {
+                        '_method': 'POST',
+                        '_token': csrf_token,
+                        'qr_code': decodedText
+                    },
+                    success: function(response) {
+                        if (response.status_error) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Scan Gagal',
+                                text: 'QR Code tidak terdaftar',
+                                showConfirmButton: false,
+                                timer: 3500,
+                                timerProgressBar: true
+                            }).then(function() {
+                                html5QrcodeScanner.resume();
+                            })
+                        } else if (response.status_already_exists) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Scan Gagal',
+                                text: 'Tiket telah di-scan sebelumnya',
+                                showConfirmButton: false,
+                                timer: 3500,
+                                timerProgressBar: true
+                            }).then(function() {
+                                html5QrcodeScanner.resume();
+                            })
+                        } else {
+                            Swal.fire({
+                                icon: 'success',
+                                title: 'Scan Berhasil',
+                                text: 'Silahkan ambil Tiket anda',
+                                showConfirmButton: false,
+                                timer: 3500,
+                                timerProgressBar: true
+                            }).then(function() {
+                                html5QrcodeScanner.resume();
+                            })
+                        }
+                    }
+                })
             }
 
             function onScanFailure(error) {

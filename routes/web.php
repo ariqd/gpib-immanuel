@@ -41,4 +41,5 @@ Route::group(['middleware' => ['auth', 'role:Admin'], 'prefix' => 'admin', 'as' 
     Route::resource('carousel', App\Http\Controllers\Admin\CarouselController::class);
 
     Route::get('attendance', [App\Http\Controllers\Admin\AttendanceController::class, 'index'])->name('attendance.index');
+    Route::post('attendance/validate', [App\Http\Controllers\Admin\AttendanceController::class, 'validateQRCode'])->name('attendance.validate');
 });

@@ -15,7 +15,8 @@ class CreateAttendancesTable extends Migration
     {
         Schema::create('attendances', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('booking_id')->nullable();
+            $table->string('booking_id');
+            $table->string('attendance_seat');
             $table->timestamps();
         });
     }
