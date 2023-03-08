@@ -31,9 +31,9 @@
                                     <td scope="col" class="py-4 px-6 font-bold">
                                         Tiket Dibeli
                                     </td>
-                                    {{-- <td scope="col" class="py-4 px-6 font-bold">
+                                    <td scope="col" class="py-4 px-6 font-bold">
                                         Kehadiran
-                                    </td> --}}
+                                    </td>
                                     <td scope="col" class="py-4 px-6 font-bold">
 
                                     </td>
