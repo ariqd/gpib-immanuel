@@ -3,7 +3,10 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Models\Attendance;
+use App\Models\Booking;
 use App\Models\Worship;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 
@@ -17,7 +20,7 @@ class WorshipController extends Controller
     public function index()
     {
         return view('admin.worship.index', [
-            'worships' => Worship::latest()->get()
+            'worships' => Worship::with('bookings.attendance')->latest()->get()
         ]);
     }
 
@@ -72,7 +75,34 @@ class WorshipController extends Controller
      */
     public function show($id)
     {
-        return view('admin.worship.show');
+        $worship = Worship::find($id);
+        $bookings = Booking::with('user')->where('worship_id', $id)->get();
+        $man = $woman = [];
+
+        foreach ($bookings as $booking) {
+            $booking_id = $booking->booking_id;
+            $seat = $booking->booking_seat;
+
+            $doesAttend = Attendance::where([
+                ['booking_id', '=', $booking_id],
+                ['attendance_seat', '=', $seat],
+            ])->count();
+
+            if ($doesAttend) {
+                if ($booking->booking_gender == 'Pria') {
+                    $man[] = $booking;
+                } else {
+                    $woman[] = $booking;
+                }
+            }
+        }
+
+        return view('admin.worship.show', [
+            'worship' => $worship,
+            'worship_date' => Carbon::parse($worship->worship_date),
+            'man' => $man,
+            'woman' => $woman,
+        ]);
     }
 
     /**

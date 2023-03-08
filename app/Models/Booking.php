@@ -22,4 +22,14 @@ class Booking extends Model
     {
         return $this->belongsTo(Worship::class);
     }
+
+    public function attendance()
+    {
+        return $this->hasMany(Attendance::class);
+    }
+
+    public function user()
+    {
+        return $this->belongsTo(User::class);
+    }
 }
