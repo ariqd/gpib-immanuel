@@ -27,8 +27,9 @@ class AttendanceController extends Controller
         ])->first();
 
         if ($bookingExists) {
-            $date = Carbon::parse($bookingExists->worship->worship_date);
-            if ($date->isPast()) {
+            $datetime = $bookingExists->worship->worship_date . ' ' . $bookingExists->worship->worship_time;
+            $worship_date = \Carbon\Carbon::parse($datetime);
+            if ($worship_date->isPast()) {
                 return response()->json([
                     'status_past' => "Scan gagal"
                 ]);

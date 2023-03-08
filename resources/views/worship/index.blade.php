@@ -10,7 +10,10 @@
         </div>
         <div class="row">
             @foreach ($worships as $worship)
-                @php($worship_date = \Carbon\Carbon::parse($worship->worship_date))
+                @php
+                    $datetime = $worship->worship_date . ' ' . $worship->worship_time;
+                    $worship_date = \Carbon\Carbon::parse($datetime);
+                @endphp
                 <div class="col-6 mt-3">
                     <div class="card">
                         <div style="
