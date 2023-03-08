@@ -8,13 +8,14 @@
     </x-slot>
 
     <div class="py-12">
-        <div class="max-w-4xl mx-auto sm:px-4 lg:px-4">
+        <div class="max-w-3xl mx-auto sm:px-4 lg:px-4">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="bg-white border-b border-gray-200 p-4">
+                    <div class="flex justify-between items-baseline">
+                        <h1 class="text-xl font-semibold mb-3">Silahkan scan QR Code tiket anda</h1>
+                        <button id="elToggle" class="underline">Show Controls</button>
+                    </div>
                     <div id="reader" width="600px"></div>
-
-                    <input type="text" id="result"
-                        class="bg-white border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5">
                 </div>
             </div>
         </div>
@@ -30,8 +31,6 @@
             let csrf_token = $('meta[name="csrf-token"]').attr('content');
 
             function onScanSuccess(decodedText, decodedResult) {
-                document.getElementById('result').value = decodedText
-
                 html5QrcodeScanner.pause();
 
                 $.ajax({
@@ -50,7 +49,7 @@
                                 title: 'Scan Gagal',
                                 text: 'QR Code tidak terdaftar',
                                 showConfirmButton: false,
-                                timer: 3500,
+                                timer: 4000,
                                 timerProgressBar: true
                             }).then(function() {
                                 html5QrcodeScanner.resume();
@@ -61,7 +60,18 @@
                                 title: 'Scan Gagal',
                                 text: 'Tiket telah di-scan sebelumnya',
                                 showConfirmButton: false,
-                                timer: 3500,
+                                timer: 4000,
+                                timerProgressBar: true
+                            }).then(function() {
+                                html5QrcodeScanner.resume();
+                            })
+                        } else if (response.status_past) {
+                            Swal.fire({
+                                icon: 'error',
+                                title: 'Scan Gagal',
+                                text: 'Waktu pendaftaran melebihi jadwal Ibadah',
+                                showConfirmButton: false,
+                                timer: 4000,
                                 timerProgressBar: true
                             }).then(function() {
                                 html5QrcodeScanner.resume();
@@ -69,15 +79,28 @@
                         } else {
                             Swal.fire({
                                 icon: 'success',
-                                title: 'Scan Berhasil',
+                                title: 'Selamat datang, ' + response.name,
                                 text: 'Silahkan ambil Tiket anda',
                                 showConfirmButton: false,
-                                timer: 3500,
+                                timer: 4000,
                                 timerProgressBar: true
                             }).then(function() {
                                 html5QrcodeScanner.resume();
                             })
                         }
+                    },
+                    error: function(xhr) {
+                        console.log(xhr);
+                        Swal.fire({
+                            icon: 'error',
+                            title: 'Scan Gagal',
+                            text: 'QR Code tidak terdaftar',
+                            showConfirmButton: false,
+                            timer: 4000,
+                            timerProgressBar: true
+                        }).then(function() {
+                            html5QrcodeScanner.resume();
+                        })
                     }
                 })
             }
@@ -99,7 +122,16 @@
                 /* verbose= */
                 false);
 
-            html5QrcodeScanner.render(onScanSuccess, onScanFailure);
+            html5QrcodeScanner.render(onScanSuccess, onScanFailure)
+            const box = document.getElementById('reader__dashboard');
+            box.style.display = 'none';
+
+            elToggle.addEventListener("click", function() {
+                if (box.style.display === 'block' || box.style.display === '')
+                    box.style.display = 'none';
+                else
+                    box.style.display = 'block'
+            });
         </script>
     </x-slot>
 </x-app-layout>
