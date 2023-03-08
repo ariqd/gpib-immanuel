@@ -22,26 +22,44 @@
                                     <th scope="col" class="py-4 px-6">
                                         Nama
                                     </th>
-                                    <th scope="col" class="py-4 px-6">
+                                    <td scope="col" class="py-4 px-6 font-bold">
                                         Tanggal
-                                    </th>
-                                    <th scope="col" class="py-4 px-6">
+                                    </td>
+                                    <td scope="col" class="py-4 px-6 font-bold">
                                         Waktu
-                                    </th>
-                                    <th scope="col" class="py-4 px-6">
+                                    </td>
+                                    <td scope="col" class="py-4 px-6 font-bold">
                                         Tiket Dibeli
-                                    </th>
-                                    <th scope="col" class="py-4 px-6">
+                                    </td>
+                                    {{-- <td scope="col" class="py-4 px-6 font-bold">
                                         Kehadiran
-                                    </th>
-                                    <th scope="col" class="py-4 px-6">
+                                    </td> --}}
+                                    <td scope="col" class="py-4 px-6 font-bold">
 
-                                    </th>
+                                    </td>
                                 </tr>
                             </thead>
                             <tbody>
                                 @foreach ($worships as $worship)
-                                    @php($worship_date = \Carbon\Carbon::parse($worship->worship_date))
+                                    @php
+                                        $worship_date = \Carbon\Carbon::parse($worship->worship_date);
+
+                                        $bookings = App\Models\Booking::with('user')
+                                            ->where('worship_id', $worship->id)
+                                            ->get();
+                                        $count = 0;
+
+                                        foreach ($bookings as $booking) {
+                                            $booking_id = $booking->booking_id;
+                                            $seat = $booking->booking_seat;
+
+                                            $doesAttend = App\Models\Attendance::where([['booking_id', '=', $booking_id], ['attendance_seat', '=', $seat]])->count();
+
+                                            if ($doesAttend) {
+                                                $count++;
+                                            }
+                                        }
+                                    @endphp
                                     <tr class="bg-white border-b">
                                         <th scope="row"
                                             class="py-4 px-6 font-medium text-gray-900 whitespace-nowrap">
@@ -57,7 +75,7 @@
                                             {{ $worship->bookings->count() }}/50
                                         </td>
                                         <td class="py-4 px-6">
-                                            {{ $worship->bookings()->withCount('attendance')->count() }}/{{ $worship->bookings->count() }}
+                                            {{ $count }}/{{ $worship->bookings->count() }}
                                         </td>
                                         <th scope="row" class="py-4 px-6">
                                             <a type="button" href="{{ route('admin.worships.show', $worship->id) }}"

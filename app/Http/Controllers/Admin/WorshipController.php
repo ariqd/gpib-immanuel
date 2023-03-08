@@ -19,8 +19,18 @@ class WorshipController extends Controller
      */
     public function index()
     {
+        $worship = Worship::with('bookings.attendance')->latest()->get();
+
+        // dd($worship);
+
+        // foreach ($worship as $w) {
+        //     dd($w->bookings);
+        // }
+
+        // $attendance = Attendance::where('booking_id', $worship->bookings->booking_id);
+
         return view('admin.worship.index', [
-            'worships' => Worship::with('bookings.attendance')->latest()->get()
+            'worships' => $worship
         ]);
     }
 
