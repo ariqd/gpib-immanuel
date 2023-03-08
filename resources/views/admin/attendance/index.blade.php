@@ -132,6 +132,25 @@
                 else
                     box.style.display = 'block'
             });
+
+            var visited = localStorage.getItem('visited');
+            if (!visited) {
+                alert("Masuk ke mode fullscreen (F11) untuk hide navigation bar");
+                localStorage.setItem('visited', true);
+            }
+
+            window.onresize = function(event) {
+                var maxHeight = window.screen.height,
+                    maxWidth = window.screen.width,
+                    curHeight = window.innerHeight,
+                    curWidth = window.innerWidth;
+
+                if (maxWidth == curWidth && maxHeight == curHeight) {
+                    document.getElementById('header_navigation').style.display = 'none'
+                } else {
+                    document.getElementById('header_navigation').style.display = 'block'
+                }
+            }
         </script>
     </x-slot>
-</x-app-layout>
+    </x-app-mini-layout>
