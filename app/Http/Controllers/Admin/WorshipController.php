@@ -12,44 +12,19 @@ use Illuminate\Support\Facades\Storage;
 
 class WorshipController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function index()
     {
         $worship = Worship::with('bookings.attendance')->latest()->get();
-
-        // dd($worship);
-
-        // foreach ($worship as $w) {
-        //     dd($w->bookings);
-        // }
-
-        // $attendance = Attendance::where('booking_id', $worship->bookings->booking_id);
-
         return view('admin.worship.index', [
             'worships' => $worship
         ]);
     }
 
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
     public function create()
     {
         return view('admin.worship.form');
     }
 
-    /**
-     * Store a newly created resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @return \Illuminate\Http\Response
-     */
     public function store(Request $request)
     {
         $request->validate([
@@ -77,12 +52,6 @@ class WorshipController extends Controller
         return redirect()->route('admin.worships.index')->with('success', 'Ibadah berhasil ditambah.');;
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function show($id)
     {
         $worship = Worship::find($id);
@@ -115,12 +84,6 @@ class WorshipController extends Controller
         ]);
     }
 
-    /**
-     * Show the form for editing the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function edit($id)
     {
         return view('admin.worship.form', [
@@ -128,13 +91,6 @@ class WorshipController extends Controller
         ]);
     }
 
-    /**
-     * Update the specified resource in storage.
-     *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
     public function update(Request $request, $id)
     {
         $request->validate([
@@ -162,16 +118,5 @@ class WorshipController extends Controller
         $worship->save();
 
         return redirect()->route('admin.worships.index')->with('success', 'Ibadah berhasil diubah.');
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function destroy($id)
-    {
-        //
     }
 }

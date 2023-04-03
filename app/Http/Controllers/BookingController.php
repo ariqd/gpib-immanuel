@@ -69,7 +69,7 @@ class BookingController extends Controller
         $errors = [];
 
         $validator = Validator::make($input, [
-            'input.*.name' => 'required|alpha|max:255',
+            'input.*.name' => ['required', 'regex:/^[a-zA-Z\s]*$/', 'max:100'],
             'input.*.gender' => 'required',
             'input.*.church' => 'required',
         ]);
