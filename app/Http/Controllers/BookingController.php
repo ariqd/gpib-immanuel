@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\Worship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Carbon;
 
 class BookingController extends Controller
 {
@@ -45,11 +46,17 @@ class BookingController extends Controller
             ['fixed', '=', 0],
         ])->get();
 
+        $worship = Worship::find($worship_id);
+        $datetime = $worship->worship_date . ' ' . $worship->worship_time;
+        $worship_date = Carbon::parse($datetime);
+
         if (!$bookings->isEmpty()) {
             return view('booking.form', [
                 'bookings' => $bookings,
                 'booking_id' => $booking_id,
                 'worship_id' => $worship_id,
+                'worship' => $worship,
+                'worship_date' => $worship_date
             ]);
         }
 

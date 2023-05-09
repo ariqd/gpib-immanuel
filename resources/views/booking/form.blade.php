@@ -5,21 +5,21 @@
         <div class="row">
             <div class="col-12">
                 <div class="d-flex justify-content-between">
-                    <h3>Pendaftaran Ibadah</h3>
+                    <h3>Detail Pendaftar Ibadah | {{ $worship->worship_name }}</h3>
                 </div>
                 <hr>
             </div>
         </div>
 
         <div class="row">
-            <div class="col-12">
+            <div class="col-7">
                 <form action="{{ route('profile.bookings.store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="booking_id" value="{{ $booking_id }}">
                     <input type="hidden" name="worship_id" value="{{ $worship_id }}">
                     <div class="row">
                         @foreach ($bookings as $booking)
-                            <div class="col-4">
+                            <div class="col-12">
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <h4 class="mb-3">Kursi {{ $booking->booking_seat }}</h4>
@@ -89,6 +89,18 @@
                     </div>
                     <button type="submit" class="btn btn-success"><i class="bi bi-check"></i> Simpan</button>
                 </form>
+            </div>
+            <div class="col-5">
+                <div class="card">
+                    <img src="{{ @$worship->worship_image ? asset('uploads/worship/image/' . @$worship->worship_image) : 'https://via.placeholder.com/300x150' }}"
+                        class="card-img-top" alt="{{ $worship->worship_name }}" />
+                    <div class="card-body">
+                        <h5 class="card-title">{{ $worship->worship_name }}</h5>
+                        <p class="card-text">Tanggal: {{ $worship_date->isoFormat('dddd, D MMMM Y') }} <br> Waktu:
+                            {{ date('G:i', strtotime($worship->worship_time)) }}
+                        </p>
+                    </div>
+                </div>
             </div>
         </div>
     </div>
