@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use App\Models\Worship;
 use Illuminate\Support\Facades\Auth;
 use Str;
+use Illuminate\Support\Carbon;
 
 class WorshipController extends Controller
 {
@@ -18,7 +19,7 @@ class WorshipController extends Controller
     public function index()
     {
         return view('worship.index', [
-            'worships' => Worship::orderBy('id', 'DESC')->get()
+            'worships' => Worship::latest()->paginate(6)
         ]);
     }
 
@@ -73,25 +74,33 @@ class WorshipController extends Controller
             ]);
         }
 
-        return redirect()->route('profile.bookings.create', ['booking_id' => $booking_id, 'worship_id' => $worship_id])->with('success', 'Silahkan isi nama pemilik kursi untuk menyelesaikan pemesanan.');;
+        return redirect()
+            ->route('profile.bookings.create', ['booking_id' => $booking_id, 'worship_id' => $worship_id])
+            ->with('success', 'Silahkan isi nama pemilik kursi untuk menyelesaikan pemesanan.');
     }
 
-    /**
-     * Display the specified resource.
-     *
-     * @param  int  $id
-     * @return \Illuminate\Http\Response
-     */
-    public function show($id)
+    public function show(Request $request, $id)
     {
+        if ($request->s > 5 || $request->s < 1) {
+            return redirect()
+                ->route('worships.seat-count', ['id' => $id])
+                ->with('success', 'Silahkan pilih kembali Jumlah Kursi yang dipesan.');
+        }
+
         $booked_seats = Booking::where([
             ['worship_id', '=', $id],
             ['fixed', '=', TRUE],
         ])->pluck('booking_seat')->toArray();
 
+        $worship = Worship::find($id);
+        $datetime = $worship->worship_date . ' ' . $worship->worship_time;
+        $worship_date = Carbon::parse($datetime);
+
         return view('worship.show', [
-            'worship' => Worship::find($id),
-            'booked_seats' => $booked_seats
+            'worship' => $worship,
+            'booked_seats' => $booked_seats,
+            'worship_date' => $worship_date,
+            'seat_count' => $request->s
         ]);
     }
 

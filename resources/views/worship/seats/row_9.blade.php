@@ -8,8 +8,12 @@
     @include('worship.seats.seat.component', ['seatLetter' => 'B', 'seatNumber' => '16'])
 
     {{-- C --}}
-    @include('worship.seats.seat.component', ['seatLetter' => 'C', 'seatNumber' => '17'])
-    @include('worship.seats.seat.component', ['seatLetter' => 'C', 'seatNumber' => '18'])
+    {{-- @include('worship.seats.seat.component', ['seatLetter' => 'C', 'seatNumber' => '17'])
+    @include('worship.seats.seat.component', ['seatLetter' => 'C', 'seatNumber' => '18']) --}}
+
+    <td colspan="2" class="align-middle text-center text-danger">
+        Kamera 1
+    </td>
 
     {{-- D --}}
     @include('worship.seats.seat.component', ['seatLetter' => 'D', 'seatNumber' => '15'])

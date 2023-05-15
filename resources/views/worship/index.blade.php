@@ -32,7 +32,8 @@
                                     <button type="button" disabled
                                         class="btn btn-success btn-block stretched-link btn-disabled">Daftar</button>
                                 @else
-                                    <a href="{{ route('worships.show', $worship->id) }}"
+                                    <a href="{{ route('worships.seat-count', $worship->id) }}"
+                                        {{-- <a href="{{ route('worships.show', $worship->id) }}" --}}
                                         class="btn btn-success btn-block stretched-link">Daftar</a>
                                 @endif
                             </div>
@@ -40,6 +41,11 @@
                     </div>
                 </div>
             @endforeach
+        </div>
+        <div class="row mt-3">
+            <div class="col-12">
+                {!! $worships->links() !!}
+            </div>
         </div>
     </div>
 @endsection

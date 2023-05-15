@@ -12,7 +12,7 @@
         </div>
 
         <div class="row">
-            <div class="col-7">
+            <div class="col-8">
                 <form action="{{ route('profile.bookings.store') }}" method="POST">
                     @csrf
                     <input type="hidden" name="booking_id" value="{{ $booking_id }}">
@@ -90,7 +90,7 @@
                     <button type="submit" class="btn btn-success"><i class="bi bi-check"></i> Simpan</button>
                 </form>
             </div>
-            <div class="col-5">
+            <div class="col-4">
                 <div class="card">
                     <img src="{{ @$worship->worship_image ? asset('uploads/worship/image/' . @$worship->worship_image) : 'https://via.placeholder.com/300x150' }}"
                         class="card-img-top" alt="{{ $worship->worship_name }}" />

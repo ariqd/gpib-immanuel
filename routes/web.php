@@ -16,12 +16,16 @@ use App\Http\Controllers\HomeController;
 
 Route::get('/', [HomeController::class, 'index']);
 
-Route::resource('worships', App\Http\Controllers\WorshipController::class)->except('store');
+// Route::resource('worships', App\Http\Controllers\WorshipController::class)->except('store');
+Route::resource('worships', App\Http\Controllers\WorshipController::class)->only('index');
 Route::resource('news', App\Http\Controllers\NewsController::class);
 Route::get('news/download/{file}', [App\Http\Controllers\NewsController::class, 'download'])->name('news.download');
 
 Route::group(['middleware' => ['auth', 'role:Simpatisan,Jemaat']], function () {
-    Route::resource('worships', App\Http\Controllers\WorshipController::class)->only('store');
+    Route::get('worships/{id}/seat-count', [App\Http\Controllers\WorshipChooseSeatCountController::class, 'index'])->name('worships.seat-count');
+    Route::post('worships/{id}/seat-count', [App\Http\Controllers\WorshipChooseSeatCountController::class, 'store'])->name('worships.seat-count.store');
+    Route::resource('worships', App\Http\Controllers\WorshipController::class)->except('index');
+    // Route::get('worships/{id}/show', [App\Http\Controllers\WorshipController::class, 'show'])->name('worships.show');
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::resource('bookings', App\Http\Controllers\BookingController::class)->except('create');
         Route::get('create/{worship_id}/{booking_id}', [App\Http\Controllers\BookingController::class, 'create'])->name('bookings.create');
