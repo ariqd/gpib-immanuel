@@ -75,6 +75,7 @@ class BookingController extends Controller
         $worship_id = $input['worship_id'];
         $errors = [];
         $names = [];
+        $seat_count = count($input['input']);
 
         $validator = Validator::make($input, [
             'input.*.name' => ['required', 'regex:/^[a-zA-Z\s]*$/', 'max:100'],
@@ -104,11 +105,11 @@ class BookingController extends Controller
         }
 
         if (count($names) !== count(array_flip($names))) {
-            $errors[$seat] = 'Terdapat nama yang sama dalam satu Pendaftaran.';
+            $errors[] = 'Terdapat nama yang sama dalam satu Pendaftaran.';
         }
 
         if (!empty($errors)) {
-            return redirect()->route('worships.show', $worship_id)->withErrors($errors);
+            return redirect()->route('worships.show', ['worship' => $worship_id, 's' => $seat_count])->withErrors($errors);
         }
 
         foreach ($input['input'] as $key => $value) {
