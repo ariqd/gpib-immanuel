@@ -85,7 +85,7 @@ class BookingController extends Controller
 
         if ($validator->fails()) {
             return redirect()
-                ->back()
+                ->route('worships.show', ['worship' => $worship_id, 's' => $seat_count])
                 ->withErrors($validator)
                 ->withInput();
         }
@@ -127,7 +127,7 @@ class BookingController extends Controller
             $booking->save();
         }
 
-        return redirect()->route('worships.show', $worship_id)->with('success', 'Kursi berhasil dibooking.');;
+        return redirect()->route('worships.index')->with('success', 'Kursi berhasil dibooking. Silahkan cek tiket anda di halaman Profil');;
     }
 
     /**

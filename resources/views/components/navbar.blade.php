@@ -25,7 +25,7 @@
                     @auth
                         <li class="nav-item">
                             <a class="nav-link" aria-current="page" href="{{ route('profile.bookings.index') }}">
-                                <i class="bi-person"></i> {{ auth()->user()->name }} ({{ auth()->user()->role->role_name }})
+                                <i class="bi-person"></i> Profil | {{ auth()->user()->name }} ({{ auth()->user()->role->role_name }})
                             </a>
                         </li>
                         <li class="nav-item">

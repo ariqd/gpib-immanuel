@@ -16,7 +16,13 @@
             @php($seats = $worship->bookings->pluck('booking_seat'))
             <div class="col-6 mt-3">
                 <div class="card">
-                    <img src="https://via.placeholder.com/300x150" class="card-img-top" alt="...">
+                    <div class="card-img-top"
+                    style="
+            width: 100%;
+            height: 200px;
+            background: url('{{ asset('uploads/worship/image/' . $worship->worship_image) }}')
+            no-repeat center; background-size: cover;">
+                </div>
                     <div class="card-body">
                         <h5 class="card-title">{{ $worship->worship_name }}</h5>
                         <p class="card-text">Tanggal: {{ $worship_date->isoFormat('dddd, D MMMM Y') }} <br> Waktu:

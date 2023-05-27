@@ -137,14 +137,17 @@
         for (var i = 0; i < checks.length; i++) {
             checks[i].onclick = selectiveCheck;
         }
+        checkedBoxes = 0;
 
         function selectiveCheck(event) {
             var checkedChecks = document.querySelectorAll(".check:checked");
-            if (checkedChecks.length >= max + 1) {
+
+            if (checkedBoxes >= max) {
                 alert('Jumlah kursi dipilih telah mencapai batas');
                 return false;
             } else {
-                document.getElementById("selected_seat_count").textContent = checkedChecks.length;
+                checkedBoxes++;
+                document.getElementById("selected_seat_count").textContent = checkedBoxes;
             }
         }
     </script>
