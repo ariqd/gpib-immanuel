@@ -6,6 +6,7 @@ use App\Models\Booking;
 use App\Models\Worship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Illuminate\Support\Carbon;
 
 class BookingController extends Controller
 {
@@ -45,11 +46,17 @@ class BookingController extends Controller
             ['fixed', '=', 0],
         ])->get();
 
+        $worship = Worship::find($worship_id);
+        $datetime = $worship->worship_date . ' ' . $worship->worship_time;
+        $worship_date = Carbon::parse($datetime);
+
         if (!$bookings->isEmpty()) {
             return view('booking.form', [
                 'bookings' => $bookings,
                 'booking_id' => $booking_id,
                 'worship_id' => $worship_id,
+                'worship' => $worship,
+                'worship_date' => $worship_date
             ]);
         }
 
@@ -67,6 +74,8 @@ class BookingController extends Controller
         $input = $request->all();
         $worship_id = $input['worship_id'];
         $errors = [];
+        $names = [];
+        $seat_count = count($input['input']);
 
         $validator = Validator::make($input, [
             'input.*.name' => ['required', 'regex:/^[a-zA-Z\s]*$/', 'max:100'],
@@ -76,12 +85,12 @@ class BookingController extends Controller
 
         if ($validator->fails()) {
             return redirect()
-                ->back()
+                ->route('worships.show', ['worship' => $worship_id, 's' => $seat_count])
                 ->withErrors($validator)
                 ->withInput();
         }
 
-        foreach ($input['input'] as $seat) {
+        foreach ($input['input'] as $seat => $value) {
             $booking_exists = Booking::where([
                 ['worship_id', '=', $worship_id],
                 ['booking_seat', '=', $seat],
@@ -89,12 +98,18 @@ class BookingController extends Controller
             ])->get();
 
             if (!$booking_exists->isEmpty()) {
-                $errors[$seat] = 'Kursi ' . $seat . ' telah dibooking oleh jemaat lain. Silahkan pilih kursi kembali';
+                $errors[$seat] = 'Kursi ' . $seat . ' telah dibooking oleh jemaat lain. Silahkan pilih kursi lain yang tersedia.';
             }
+
+            $names[] = strtolower($value['name']);
+        }
+
+        if (count($names) !== count(array_flip($names))) {
+            $errors[] = 'Terdapat nama yang sama dalam satu Pendaftaran.';
         }
 
         if (!empty($errors)) {
-            return redirect()->route('worships.show', $worship_id)->withErrors($errors);
+            return redirect()->route('worships.show', ['worship' => $worship_id, 's' => $seat_count])->withErrors($errors);
         }
 
         foreach ($input['input'] as $key => $value) {
@@ -112,7 +127,7 @@ class BookingController extends Controller
             $booking->save();
         }
 
-        return redirect()->route('worships.show', $worship_id)->with('success', 'Kursi berhasil dibooking.');;
+        return redirect()->route('worships.index')->with('success', 'Kursi berhasil dibooking. Silahkan cek tiket anda di halaman Profil');;
     }
 
     /**

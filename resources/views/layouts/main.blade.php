@@ -96,6 +96,8 @@
         }
         window.initMap = initMap;
     </script>
+
+    @yield('js')
 </body>
 
 </html>

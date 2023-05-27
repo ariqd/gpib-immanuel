@@ -22,7 +22,7 @@ class Role
             }
         }
 
-
+        session()->flash('warning', 'Mohon Log In untuk melakukan pendaftaran.');
         return redirect()->to(url('/'));
     }
 }

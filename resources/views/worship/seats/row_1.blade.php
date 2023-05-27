@@ -18,17 +18,17 @@
     <td colspan="2"></td>
 
     {{-- F --}}
-    @include('worship.seats.seat.component', ['seatLetter' => 'F', 'seatNumber' => '1'])
+    {{-- @include('worship.seats.seat.component', ['seatLetter' => 'F', 'seatNumber' => '1'])
     @include('worship.seats.seat.component', ['seatLetter' => 'F', 'seatNumber' => '2', 'colspan' => '2'])
-    @include('worship.seats.seat.component', ['seatLetter' => 'F', 'seatNumber' => '3'])
+    @include('worship.seats.seat.component', ['seatLetter' => 'F', 'seatNumber' => '3']) --}}
 
     {{-- G --}}
-    <td colspan="4"></td>
+    {{-- <td colspan="4"></td> --}}
 
     {{-- H --}}
-    <td colspan="2"></td>
+    {{-- <td colspan="2"></td> --}}
 
     {{-- I --}}
-    @include('worship.seats.seat.component', ['seatLetter' => 'I', 'seatNumber' => '1', 'colspan' => '2'])
-    @include('worship.seats.seat.component', ['seatLetter' => 'I', 'seatNumber' => '2', 'colspan' => '2'])
+    {{-- @include('worship.seats.seat.component', ['seatLetter' => 'I', 'seatNumber' => '1', 'colspan' => '2'])
+    @include('worship.seats.seat.component', ['seatLetter' => 'I', 'seatNumber' => '2', 'colspan' => '2']) --}}
 </tr>

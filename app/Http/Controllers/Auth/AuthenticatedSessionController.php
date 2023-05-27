@@ -17,7 +17,9 @@ class AuthenticatedSessionController extends Controller
      */
     public function create()
     {
-        return view('auth.login');
+        return view('auth.login', [
+            'previous_url' => url()->previous()
+        ]);
     }
 
     /**
@@ -32,7 +34,11 @@ class AuthenticatedSessionController extends Controller
 
         $request->session()->regenerate();
 
-        return redirect()->intended(RouteServiceProvider::HOME);
+        if(Auth::user()->role_id == '1') {
+            return redirect()->route('admin.worships.index');
+        }
+
+        return redirect()->to($request->previous_url)->with('success', 'Login berhasil!');
     }
 
     /**

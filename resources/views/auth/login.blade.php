@@ -19,6 +19,8 @@
         <form method="POST" action="{{ route('login') }}">
             @csrf
 
+            <input type="hidden" name="previous_url" value="{{ $previous_url }}">
+
             <!-- Email Address -->
             <div>
                 <x-label for="email" :value="__('Email')" />

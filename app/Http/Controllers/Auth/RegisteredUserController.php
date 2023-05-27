@@ -54,10 +54,11 @@ class RegisteredUserController extends Controller
             'user_gender' => $request->gender,
             'user_vaccine' => $request->vaccine,
             'user_church' => $request->user_church,
+            'is_approved' => TRUE
         ]);
 
         event(new Registered($user));
 
-        return redirect('/')->with('success', 'Selamat, pendaftaran berhasil! Anda dapat login setelah data anda berhasil diverifikasi oleh Admin');
+        return redirect('/')->with('success', 'Selamat, pendaftaran berhasil! Silahkan Login dengan menggunakan email dan password anda');
     }
 }
