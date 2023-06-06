@@ -45,25 +45,6 @@
                                         </div>
                                         <div class="modal-body">
                                             @foreach ($worship->bookings->groupBy('booking_id') as $booking_id => $bookings)
-                                                {{-- <div class="d-flex justify-content-between align-items-baseline">
-                                                    <h5>Booking ID: {{ $booking_id }}</h5> --}}
-
-                                                {{-- <button type="button" class="btn btn-primary btn-sm"
-                                                        data-bs-toggle="collapse"
-                                                        data-bs-target="#collapse-{{ $booking_id }}" aria-expanded="false"
-                                                        aria-controls="collapse-{{ $booking_id }}">
-                                                        Lihat Barcode
-                                                    </button> --}}
-                                                {{-- </div> --}}
-
-                                                {{-- <div class="collapse mt-2" id="collapse-{{ $booking_id }}">
-                                                    <div class="card card-body">
-                                                        <div class="d-flex justify-content-center">
-                                                            {!! DNS2D::getBarcodeHTML($booking_id, 'QRCODE') !!}
-                                                        </div>
-                                                    </div>
-                                                </div> --}}
-
                                                 <table class="table align-middle">
                                                     <thead>
                                                         <tr>
@@ -73,7 +54,6 @@
                                                             <th>
                                                                 {{ auth()->user()->role->role_name === 'Jemaat' ? 'Sektor' : 'Asal Gereja' }}
                                                             </th>
-                                                            {{-- <th>QR Code</th> --}}
                                                         </tr>
                                                     </thead>
                                                     <tbody>
@@ -83,15 +63,6 @@
                                                                 <td>{{ $booking->booking_name }}</td>
                                                                 <td>{{ $booking->booking_gender }}</td>
                                                                 <td>{{ $booking->booking_church }}</td>
-                                                                {{-- <td>
-                                                                    <button type="button" class="btn btn-primary btn-sm"
-                                                                        data-bs-toggle="collapse"
-                                                                        data-bs-target="#collapse-{{ $booking_id . '-' . $booking->booking_seat }}"
-                                                                        aria-expanded="false"
-                                                                        aria-controls="collapse-{{ $booking_id . '-' . $booking->booking_seat }}">
-                                                                        Lihat Barcode
-                                                                    </button>
-                                                                </td> --}}
                                                             </tr>
                                                             <tr>
                                                                 <td colspan="5">
@@ -107,17 +78,10 @@
                                                 </table>
                                             @endforeach
                                         </div>
-                                        {{-- <div class="modal-footer">
-                                            <button type="button" class="btn btn-secondary"
-                                                data-bs-dismiss="modal">Close</button>
-                                            <button type="button" class="btn btn-primary">Save changes</button>
-                                        </div> --}}
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        {{-- <h5 class="card-title">Kursi</h5>
-                        <h5>{{ $seats->join(',') }}</h5> --}}
                     </div>
                 </div>
             </div>
