@@ -36,7 +36,7 @@ class AttendanceController extends Controller
             }
 
             $attendance = Attendance::firstOrCreate([
-                'booking_id' => $ticket,
+                'booking_id' => $bookingExists->id,
                 'attendance_seat' => $seat,
             ]);
 
