@@ -23,18 +23,18 @@
                                 <div class="card mb-3">
                                     <div class="card-body">
                                         <h4 class="mb-3">Kursi {{ $booking->booking_seat }}</h4>
-                                        <div class="forn-group">
-                                            <label for="input-{{ $booking->booking_seat }}" class="form-label">
+                                        <div class="form-group">
+                                            <label for="input[{{ $booking->booking_seat }}][name]" class="form-label">
                                                 Nama
                                             </label>
                                             <div class="mb-4">
                                                 <input type="text" name="input[{{ $booking->booking_seat }}][name]"
                                                     class="form-control"
                                                     placeholder="Nama pemegang kursi {{ $booking->booking_seat }}"
-                                                    id="input-{{ $booking->booking_seat }}-name" required>
+                                                    id="input[{{ $booking->booking_seat }}][name]" required>
                                             </div>
                                         </div>
-                                        <div class="forn-group">
+                                        <div class="form-group">
                                             <label for="input-{{ $booking->booking_seat }}-male" class="form-label">
                                                 Jenis Kelamin
                                             </label>
@@ -59,7 +59,7 @@
                                                 </div>
                                             </div>
                                         </div>
-                                        <div class="forn-group">
+                                        <div class="form-group">
                                             <label for="input-{{ $booking->booking_seat }}-church" class="form-label">
                                                 {{ auth()->user()->role->role_name === 'Jemaat' ? 'Sektor' : 'Asal Gereja' }}
                                             </label>

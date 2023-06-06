@@ -75,6 +75,7 @@ class BookingController extends Controller
         $worship_id = $input['worship_id'];
         $errors = [];
         $names = [];
+        $booked_names = [];
         $seat_count = count($input['input']);
 
         $validator = Validator::make($input, [
@@ -91,25 +92,37 @@ class BookingController extends Controller
         }
 
         foreach ($input['input'] as $seat => $value) {
-            $booking_exists = Booking::where([
+            $booking_exists_by_seat = Booking::where([
                 ['worship_id', '=', $worship_id],
                 ['booking_seat', '=', $seat],
                 ['fixed', '=', true]
             ])->get();
 
-            if (!$booking_exists->isEmpty()) {
+            if (!$booking_exists_by_seat->isEmpty()) {
                 $errors[$seat] = 'Kursi ' . $seat . ' telah dibooking oleh jemaat lain. Silahkan pilih kursi lain yang tersedia.';
             }
 
             $names[] = strtolower($value['name']);
         }
 
-        if (count($names) !== count(array_flip($names))) {
-            $errors[] = 'Terdapat nama yang sama dalam satu Pendaftaran.';
+        $booking_exists_by_user = Booking::where([
+            ['worship_id', '=', $worship_id],
+            ['user_id', '=', auth()->id()],
+            ['fixed', '=', true]
+        ])->get();
+
+        if (!$booking_exists_by_user->isEmpty()) {
+            foreach ($booking_exists_by_user as $existing_booking) {
+                $booked_names[] = strtolower($existing_booking->booking_name);
+            }
+        }
+
+        if ((count($names) !== count(array_flip($names))) || !empty(array_intersect($names, $booked_names))) {
+            $errors[] = 'Terdapat nama yang sama dalam Pendaftaran saat ini atau Pendaftaran sebelumnya.';
         }
 
         if (!empty($errors)) {
-            return redirect()->route('worships.show', ['worship' => $worship_id, 's' => $seat_count])->withErrors($errors);
+            return redirect()->route('profile.bookings.create', ['booking_id' => $input['booking_id'], 'worship_id' => $worship_id])->withErrors($errors)->withInput();
         }
 
         foreach ($input['input'] as $key => $value) {
@@ -122,12 +135,11 @@ class BookingController extends Controller
             $booking->booking_name = $value['name'];
             $booking->booking_gender = $value['gender'];
             $booking->booking_church = $value['church'];
-            $booking->fixed = TRUE;
 
             $booking->save();
         }
 
-        return redirect()->route('worships.index')->with('success', 'Kursi berhasil dibooking. Silahkan cek tiket anda di halaman Profil');;
+        return redirect()->route('profile.bookings.show', ['booking_id' => $input['booking_id'], 'worship_id' => $worship_id]);
     }
 
     /**
@@ -136,9 +148,20 @@ class BookingController extends Controller
      * @param  int  $id
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show($worship_id, $booking_id)
     {
-        //
+        $bookings = Booking::where('booking_id', $booking_id)->get();
+        $worship = Worship::find($worship_id);
+        $datetime = $worship->worship_date . ' ' . $worship->worship_time;
+        $worship_date = Carbon::parse($datetime);
+
+        return view('booking.confirm', [
+            'bookings' => $bookings,
+            'booking_id' => $booking_id,
+            'worship_id' => $worship_id,
+            'worship' => $worship,
+            'worship_date' => $worship_date
+        ]);
     }
 
     /**
@@ -161,7 +184,26 @@ class BookingController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        // dd($request->all());
+
+        $input = $request->all();
+
+        foreach ($input['input'] as $key => $value) {
+            $booking = Booking::where([
+                ['booking_id', '=', $input['booking_id']],
+                ['booking_seat', '=', $key],
+                ['fixed', '=', false],
+            ])->first();
+
+            $booking->booking_name = $value['name'];
+            $booking->booking_gender = $value['gender'];
+            $booking->booking_church = $value['church'];
+            $booking->fixed = TRUE;
+
+            $booking->save();
+        }
+
+        return redirect()->route('worships.index')->with('success', 'Kursi berhasil dibooking. Silahkan cek tiket anda di halaman Profil');
     }
 
     /**

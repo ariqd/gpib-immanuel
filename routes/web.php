@@ -29,6 +29,7 @@ Route::group(['middleware' => ['auth', 'role:Simpatisan,Jemaat']], function () {
     Route::group(['prefix' => 'profile', 'as' => 'profile.'], function () {
         Route::resource('bookings', App\Http\Controllers\BookingController::class)->except('create');
         Route::get('create/{worship_id}/{booking_id}', [App\Http\Controllers\BookingController::class, 'create'])->name('bookings.create');
+        Route::get('show/{worship_id}/{booking_id}', [App\Http\Controllers\BookingController::class, 'show'])->name('bookings.show');
     });
 });
 
